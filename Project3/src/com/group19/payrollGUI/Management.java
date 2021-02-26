@@ -1,3 +1,5 @@
+package com.group19.payrollGUI;
+
 /**
  * Object class which represents those in management, is of type Employee.
  @author Sagnik Mukherjee, Michael Choe

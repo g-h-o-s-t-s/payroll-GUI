@@ -1,3 +1,5 @@
+package com.group19.payrollGUI;
+
 /**
  * Object class which contains company-relevant information of an employee.
  @author Sagnik Mukherjee, Michael Choe

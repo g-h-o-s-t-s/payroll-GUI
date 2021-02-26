@@ -1,3 +1,5 @@
+package com.group19.payrollGUI;
+
 /**
  * Object class which represents a full-time worker, is of type Fulltime.
  @author Sagnik Mukherjee, Michael Choe

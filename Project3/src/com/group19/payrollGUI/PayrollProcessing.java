@@ -1,3 +1,5 @@
+package com.group19.payrollGUI;
+
 import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.lang.NumberFormatException;

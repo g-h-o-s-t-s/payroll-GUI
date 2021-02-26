@@ -1,3 +1,5 @@
+package com.group19.payrollGUI;
+
 /**
  * Container class, represents database list of employees.
  * Methods provided to lookup/add/remove employee, print out employee list,

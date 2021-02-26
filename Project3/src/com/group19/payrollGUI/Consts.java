@@ -1,3 +1,5 @@
+package com.group19.payrollGUI;
+
 import java.text.DecimalFormat;
 /**
  * The Consts class houses all immutable constant values.
@@ -90,6 +92,9 @@ public class Consts
             INVALID_HOURS_B = "Invalid Hours: over 100.",
             CALCULATED = "Calculation of employee payments is done.",
             ADDED = "Employee added.",
+            ADDEDPT = "Added part-time employee.",
+            ADDEDFT = "Added full-time employee.",
+            ADDEDMA = "Added management position.",
             DUPLICATE = "Employee is already in the list.",
             SETHOURS = "Working hours set.",
             REMOVED = "Employee removed.",
@@ -115,6 +120,10 @@ public class Consts
 
     //Possibilities for Employee department.
     public static final String CS = "CS", ECE = "ECE", IT = "IT";
+
+    /* Main() constants*/
+    public static final int DEFAULT_WIDTH = 1280;
+    public static final int DEFAULT_HEIGHT = 720;
 
     /**
      * Constructor prevents other classes from instantiating objects of

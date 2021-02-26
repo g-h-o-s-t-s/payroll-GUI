@@ -1,0 +1,39 @@
+package com.group19.payrollGUI;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+/**
+ * Driver class, calls Client JavaFX class, Controller().
+ * @author Sagnik Mukherjee, Michael Choe
+ */
+@SuppressWarnings("WeakerAccess")
+public class Main extends Application
+{
+    /**
+     * Method to create top-level JavaFX container. Creates an instance
+     * of a display window.
+     * @param primaryStage top-level container
+     * @throws Exception handles any unpredictable, invalid inputs
+     */
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        Parent root =
+                FXMLLoader.load(getClass().getResource("View.fxml"));
+        primaryStage.setTitle("Payroll Processing System");
+        primaryStage.setScene(new Scene(root, Consts.DEFAULT_WIDTH,
+                Consts.DEFAULT_HEIGHT));
+        primaryStage.show();
+    }
+
+    /**
+     * Main method to create instance of client class.
+     * @param args The command line arguments.
+     */
+    public static void main(String[] args)
+    {
+        launch(args);
+    }
+}

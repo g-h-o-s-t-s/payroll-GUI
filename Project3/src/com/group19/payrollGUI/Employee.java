@@ -1,3 +1,5 @@
+package com.group19.payrollGUI;
+
 /**
  * Object class which represents an employed individual.
  @author Sagnik Mukherjee, Michael Choe
