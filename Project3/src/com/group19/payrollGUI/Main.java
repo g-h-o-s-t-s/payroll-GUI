@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import static com.group19.payrollGUI.Consts.*;
 /**
  * Driver class, calls Client JavaFX class, Controller().
  * @author Sagnik Mukherjee, Michael Choe
@@ -19,12 +20,13 @@ public class Main extends Application
      * @throws Exception handles any unpredictable, invalid inputs
      */
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception
+    {
         Parent root =
                 FXMLLoader.load(getClass().getResource("View.fxml"));
         primaryStage.setTitle("Payroll Processing System");
-        primaryStage.setScene(new Scene(root, Consts.DEFAULT_WIDTH,
-                Consts.DEFAULT_HEIGHT));
+        primaryStage.setScene(new Scene(root, DEFAULT_WIDTH,
+                DEFAULT_HEIGHT));
         primaryStage.show();
     }
 

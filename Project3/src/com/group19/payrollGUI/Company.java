@@ -1,5 +1,7 @@
 package com.group19.payrollGUI;
 
+import static com.group19.payrollGUI.Consts.*;
+
 /**
  * Container class, represents database list of employees.
  * Methods provided to lookup/add/remove employee, print out employee list,
@@ -18,7 +20,7 @@ public class Company
      */
     public Company()
     {
-        emplist = new Employee[Consts.DEFAULT];
+        emplist = new Employee[DEFAULT];
         numEmployee = 0;
     }
 
@@ -28,7 +30,7 @@ public class Company
      */
     public boolean isEmpty()
     {
-        return (this.numEmployee == Consts.ZERO);
+        return (this.numEmployee == ZERO);
     }
 
     /**
@@ -43,7 +45,7 @@ public class Company
                     .equals(employee.getProfile()))
                 return i;
 
-        return Consts.NOTFOUND;
+        return NOTFOUND;
     }
 
     /**
@@ -54,7 +56,7 @@ public class Company
      */
     private void grow()
     {
-        Employee[] temp = new Employee[emplist.length + Consts.GROW];
+        Employee[] temp = new Employee[emplist.length + GROW];
         for (int i = 0; i < emplist.length; i++)
             temp[i] = emplist[i];
 
@@ -71,7 +73,7 @@ public class Company
     {
         //do not add duplicate employee, and validate profile
         int alreadyInList = find(employee);
-        if (alreadyInList != Consts.NOTFOUND
+        if (alreadyInList != NOTFOUND
                 || !employee.getProfile().isValid())
             return false;
 
@@ -102,7 +104,7 @@ public class Company
             return false;
 
         int removeThis = find(employee);
-        if (removeThis == Consts.NOTFOUND)
+        if (removeThis == NOTFOUND)
             return false;
 
         emplist[removeThis] = null;
@@ -147,7 +149,7 @@ public class Company
             return false;
 
         int setThis = find(employee);
-        if (setThis == Consts.NOTFOUND)
+        if (setThis == NOTFOUND)
             return false;
 
         //verify type beforehand to avoid ClassCastException;
@@ -156,7 +158,7 @@ public class Company
         //of the Employee parameter
         if (emplist[setThis] instanceof Parttime) {
             int hoursToSet = ((Parttime) employee).getHoursWorked();
-            if (hoursToSet < 0 || hoursToSet > Consts.PARTTIME_MAX)
+            if (hoursToSet < 0 || hoursToSet > PARTTIME_MAX)
                 return false;
 
             ((Parttime) emplist[setThis]).setHoursWorked(

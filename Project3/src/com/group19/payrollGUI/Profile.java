@@ -1,5 +1,7 @@
 package com.group19.payrollGUI;
 
+import static com.group19.payrollGUI.Consts.*;
+
 /**
  * Object class which contains company-relevant information of an employee.
  @author Sagnik Mukherjee, Michael Choe
@@ -43,10 +45,10 @@ public class Profile
      */
     public boolean isValid()
     {
-        return name.split(",").length == Consts.NAMES
-                && (department.equals(Consts.CS)
-                    || department.equals(Consts.ECE)
-                    || department.equals(Consts.IT))
+        return name.split(",").length == NAMES
+                && (department.equals(CS)
+                    || department.equals(ECE)
+                    || department.equals(IT))
                 && dateHired.isValid();
     }
 
@@ -81,8 +83,8 @@ public class Profile
     @Override
     public String toString()
     {
-        return name + Consts.SEPARATOR + department
-                + Consts.SEPARATOR + dateHired;
+        return name + SEPARATOR + department
+                + SEPARATOR + dateHired;
     }
 
     /**
@@ -100,6 +102,6 @@ public class Profile
         Profile that = (Profile) obj;
         return this.name.equals(that.name)
                 && this.department.equals(that.department)
-                && this.dateHired.compareTo(that.dateHired) == Consts.ZERO;
+                && this.dateHired.compareTo(that.dateHired) == ZERO;
     }
 }

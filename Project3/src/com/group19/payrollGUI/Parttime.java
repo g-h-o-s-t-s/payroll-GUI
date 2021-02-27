@@ -1,5 +1,7 @@
 package com.group19.payrollGUI;
 
+import static com.group19.payrollGUI.Consts.*;
+
 /**
  * Object class which represents a part-time worker, is of type Employee.
  @author Sagnik Mukherjee, Michael Choe
@@ -16,8 +18,8 @@ public class Parttime extends Employee
     public Parttime()
     {
         super();
-        hourlyPay = Consts.ZERO;
-        hoursWorked = Consts.DEFAULTHOURS;
+        hourlyPay = ZERO;
+        hoursWorked = DEFAULTHOURS;
     }
 
     /**
@@ -26,10 +28,10 @@ public class Parttime extends Employee
      */
     public Parttime(Profile p, double hp, int hw)
     {
-        super(p, Consts.ZERO);
+        super(p, ZERO);
         hourlyPay = hp;
         //intentionally invalidate Parttime object if max hours exceeded
-        if (hw > Consts.PARTTIME_MAX || hw < 0) {
+        if (hw > PARTTIME_MAX || hw < 0) {
             Profile invalid = new Profile();
             super.setProfile(invalid);
         }
@@ -76,11 +78,11 @@ public class Parttime extends Employee
     @Override
     public String toString()
     {
-        return super.toString() + Consts.PAYCHECK_MSG
-            + Consts.df.format(getPeriodEarnings())
-            + Consts.SEPARATOR + Consts.PARTTIME
-            + Consts.HOURLYPAY_MSG + Consts.df.format(hourlyPay)
-            + Consts.HOURS_MSG + hoursWorked;
+        return super.toString() + PAYCHECK_MSG
+            + df.format(getPeriodEarnings())
+            + SEPARATOR + PARTTIME
+            + HOURLYPAY_MSG + df.format(hourlyPay)
+            + HOURS_MSG + hoursWorked;
     }
 
     /**
@@ -103,9 +105,9 @@ public class Parttime extends Employee
     @Override
     public void calculatePayment()
     {
-        int overtime = hoursWorked % Consts.FULLHOURS;
+        int overtime = hoursWorked % FULLHOURS;
         int regularTime = hoursWorked - overtime;
-        double overtimeRate = Consts.OVERTIME_RATE * hourlyPay;
+        double overtimeRate = OVERTIME_RATE * hourlyPay;
 
         double pe = (hourlyPay * regularTime) + (overtimeRate * overtime);
         setPeriodEarnings(pe);

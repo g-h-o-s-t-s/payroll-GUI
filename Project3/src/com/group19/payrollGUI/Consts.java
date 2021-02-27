@@ -15,6 +15,7 @@ public class Consts
     public static final int NAMES = 2;
     public static final double ZERO = 0.0;
     public static final int NOTFOUND = -1;
+    public static final String BLANK = "";
 
 
     /* Company() class constants */
@@ -121,9 +122,12 @@ public class Consts
     //Possibilities for Employee department.
     public static final String CS = "CS", ECE = "ECE", IT = "IT";
 
-    /* Main() constants*/
+    /* Main() constants */
     public static final int DEFAULT_WIDTH = 1280;
     public static final int DEFAULT_HEIGHT = 720;
+
+    /* Controller() constants */
+
 
     /**
      * Constructor prevents other classes from instantiating objects of
