@@ -1,0 +1,62 @@
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #d8c5af;
+    -fx-font-size: 18pt;
+}
+
+.button {
+    -fx-background-color: #f5d4b8;
+    -fx-font-size: 14pt;
+}
+
+.label {
+    -fx-font-size: 16pt;
+}
+
+.label-title {
+    -fx-font-size: 24pt;
+    -fx-font-style: italic;
+}
+
+.menu-bar {
+    -fx-background-color: #cba356;
+    -fx-opacity: 0.5;
+    -fx-border-width: 2.0;
+}
+
+.menu-bar .label {
+    -fx-font-size: 14pt;
+    -fx-font-family: "SansSerif";
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+
+}
+
+.menu-bar .menu-button:hover, .menu-bar .menu-button:focused, .menu-bar .menu-button:showing {
+    -fx-background: black ;
+    -fx-opacity: 0.5;
+    -fx-text-fill: white;
+}
+
+.menu-item {
+    -fx-text-fill: black;
+    -fx-background: darkgray ;
+}
+
+.menu-item .label{
+    -fx-font-size: 12pt;
+    -fx-text-fill: black;
+}
+
+.menu-item .label:hover{
+    -fx-background: black ;
+    -fx-text-fill: white;
+}
+
+.context-menu {
+    -fx-skin: "com.sun.javafx.scene.control.skin.ContextMenuSkin";
+    -fx-background-color:white ;
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+}
