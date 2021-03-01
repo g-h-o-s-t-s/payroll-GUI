@@ -48,26 +48,16 @@
 <VBox styleClass="root"
       stylesheets="/com/group19/payrollGUI/styles.css"
       xmlns:fx="http://javafx.com/fxml/1"
-      xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns="http://javafx.com/javafx/10.0.1"
       fx:controller="com.group19.payrollGUI.Controller">
     <MenuBar fx:id="MenuBar" VBox.vgrow="NEVER">
         <Menu fx:id="MenuFile" mnemonicParsing="false" text="File">
-            <MenuItem fx:id="Import" mnemonicParsing="false" text="Import..."/>
+            <MenuItem fx:id="Import" mnemonicParsing="false" text="Import..."
+                onAction="#openImportDialog"/>
             <MenuItem fx:id="Export" mnemonicParsing="false" text="Export..."/>
             <SeparatorMenuItem mnemonicParsing="false"/>
-            <MenuItem fx:id="Quit" mnemonicParsing="false" text="Quit"/>
-        </Menu>
-        <Menu fx:id="MenuEdit" mnemonicParsing="false" text="Edit">
-            <MenuItem fx:id="Cut" mnemonicParsing="false" text="Cut"/>
-            <MenuItem fx:id="Copy" mnemonicParsing="false" text="Copy"/>
-            <MenuItem fx:id="Paste" mnemonicParsing="false" text="Paste"/>
-            <MenuItem fx:id="Delete" mnemonicParsing="false" text="Delete"/>
-            <SeparatorMenuItem mnemonicParsing="false"/>
-            <MenuItem fx:id="SelectAll" mnemonicParsing="false" text="Select All"/>
-            <MenuItem fx:id="UnselectAll" mnemonicParsing="false" text="Unselect All"/>
-        </Menu>
-        <Menu fx:id="MenuHelp" mnemonicParsing="false" text="Help">
-            <MenuItem fx:id="About" mnemonicParsing="false" text="About..."/>
+            <MenuItem fx:id="Quit" mnemonicParsing="false" text="Quit"
+            onAction="#exitProgram"/>
         </Menu>
     </MenuBar>
     <AnchorPane fx:id="ContentAnchorPane" VBox.vgrow="ALWAYS">
@@ -75,13 +65,14 @@
                     AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
                     AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" >
             <bottom>
-                <HBox fx:id="BottomHBox" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
-                    <Label fx:id="statusMessage" onMouseEntered="#sayClearText">
+                <VBox fx:id="BottomVBox">
+                    <Label fx:id="statusMessage" text = "Payroll Processing System Starts."
+                           onMouseEntered="#sayClearText">
                         <padding>
                             <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
                         </padding>
                     </Label>
-                </HBox>
+                </VBox>
             </bottom>
             <top>
                 <Pane fx:id="TitlePane" BorderPane.alignment="CENTER">
@@ -150,6 +141,15 @@
                     </Button>
                     <Button fx:id="Remove" mnemonicParsing="false"
                             onMouseClicked="#sayRemove" text="Remove">
+                        <padding>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        </padding>
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="5.0" right="20.0" top="15.0"/>
+                        </HBox.margin>
+                    </Button>
+                    <Button fx:id="Print" mnemonicParsing="false"
+                            onMouseClicked="#sayPrint" text="Print Database">
                         <padding>
                             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>

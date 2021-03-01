@@ -183,21 +183,27 @@ public class Company
 
     /**
      * Prints earning statements for all employees.
+     * @return String literal of employee database contents
      */
-    public void print()
+    public String print()
     {
+        String output = BLANK;
         for (int i = 0; i < numEmployee; i++)
             if (emplist[i] != null)
-                System.out.println(emplist[i].toString());
+                output = output + (emplist[i].toString());
+
+        return output;
     }
 
     /**
      * Prints earning statements, sorted by department.
      */
-    public void printByDepartment()
+    public String printByDepartment()
     {
+        String result = "";
         sortByDepartment(emplist);
-        print();
+        result += print();
+        return result;
     }
 
     /**
@@ -230,10 +236,12 @@ public class Company
     /**
      * Prints earning statements, sorted by date hired.
      */
-    public void printByDate()
+    public String printByDate()
     {
+        String result = "";
         sortByDate(emplist);
-        print();
+        result += print();
+        return result;
     }
 
     /**

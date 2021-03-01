@@ -80,11 +80,10 @@ public class Consts
             ONEINPUT = 1, FOURINPUTS = 4, FIVEINPUTS = 5, SIXINPUTS = 6;
 
     //Constants that represent status messages.
-    public static final String DELIMITER = "\\s+";
-    public static final String STARTUP = "Payroll Processing starts.",
-            INVALID_INPUT = "Invalid input!",
+    public static final String DELIMITER = ",";
+    public static final String INVALID_INPUT = "Invalid input!",
             INVALID_DATE = " is not a valid date.",
-            INVALID_NAME = " is not a valid name (last,first).",
+            INVALID_NAME = " is not a valid name (first last).",
             INVALID_DEP = " is not a valid department code.",
             INVALID_SALARY = "Salary cannot be negative.",
             INVALID_PAYRATE = "Pay rate cannot be negative.",
@@ -104,8 +103,8 @@ public class Consts
             ISEMPTY = "Employee database is empty.";
 
     //Constants that indicate which client command to execute.
-    public static final String QUIT = "Q", ADDPARTTIME = "AP",
-            ADDFULLTIME = "AF", ADDFULLROLE = "AM", REMOVE = "R",
+    public static final String QUIT = "Q", ADDPARTTIME = "P",
+            ADDFULLTIME = "F", ADDFULLROLE = "M", REMOVE = "R",
             CALCULATE = "C", SET = "S", PRINTALL = "PA", PRINTHIRED = "PH",
             PRINTDEPART = "PD";
 
@@ -125,8 +124,13 @@ public class Consts
     /* Main() constants */
     public static final int DEFAULT_WIDTH = 1280;
     public static final int DEFAULT_HEIGHT = 720;
+    public static final int HALF_WIDTH = 640;
+    public static final int HALF_HEIGHT = 360;
 
     /* Controller() constants */
+//    public static PauseTransition delay =
+//            new PauseTransition(Duration.seconds(10));
+    public static final String SELECTED = "File selected: ";
 
 
     /**
