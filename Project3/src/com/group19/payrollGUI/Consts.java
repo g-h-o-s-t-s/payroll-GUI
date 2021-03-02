@@ -128,8 +128,6 @@ public class Consts
     public static final int HALF_HEIGHT = 360;
 
     /* Controller() constants */
-//    public static PauseTransition delay =
-//            new PauseTransition(Duration.seconds(10));
     public static final String SELECTED = "File selected: ";
 
 

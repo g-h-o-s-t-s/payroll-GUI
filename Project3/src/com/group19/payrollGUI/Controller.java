@@ -17,49 +17,49 @@ import java.util.Scanner;
 @SuppressWarnings("WeakerAccess")
 public class Controller
 {
+    public ScrollPane bottomScrollPane;
     public Label statusMessage;
-    public HBox CenterHBox;
-    public Pane TitlePane;
-    public MenuBar MenuBar;
-    public Menu MenuFile;
-    public MenuItem Export;
-    public MenuItem Import;
-    public MenuItem Quit;
-    public AnchorPane ContentAnchorPane;
-    public BorderPane PrimaryBorderPane;
-    public VBox BottomVBox;
-    public Label TitleLabel;
-    public Button AddPartTime;
-    public Button AddFullTime;
-    public Button AddManagement;
-    public Button Calculate;
-    public Button SetHours;
-    public Button Remove;
-    public Button Print;
+    public Pane titlePane;
+    public MenuBar menuBar;
+    public Menu menuFile;
+    public MenuItem exportFile;
+    public MenuItem importFile;
+    public MenuItem quit;
+    public AnchorPane contentAnchorPane;
+    public BorderPane primaryBorderPane;
+    public Label titleLabel;
+    public HBox centerHBox;
+    public Button addPartTime;
+    public Button addFullTime;
+    public Button addManagement;
+    public Button calculate;
+    public Button setHours;
+    public Button remove;
+    public Button print;
     public static Company company = new Company();
 
     public void sayAddPartTime() {
-        statusMessage.setText(Consts.ADDEDPT);
+        appendText(Consts.ADDEDPT);
     }
 
     public void sayAddFullTime() {
-        statusMessage.setText(Consts.ADDEDFT);
+        appendText(Consts.ADDEDFT);
     }
 
     public void sayAddManagement() {
-        statusMessage.setText(Consts.ADDEDMA);
+        appendText(Consts.ADDEDMA);
     }
 
     public void sayRemove() {
-        statusMessage.setText(Consts.REMOVED);
+        appendText(Consts.REMOVED);
     }
 
     public void sayCalculate() {
-        statusMessage.setText(Consts.CALCULATED);
+        appendText(Consts.CALCULATED);
     }
 
     public void saySetHours() {
-        statusMessage.setText(Consts.SETHOURS);
+        appendText(Consts.SETHOURS);
     }
 
     public void sayClearText() {
@@ -67,7 +67,7 @@ public class Controller
     }
 
     public void sayPrint() {
-        statusMessage.setText((Consts.PRINT_HEADER));
+        appendText((Consts.PRINT_HEADER));
     }
 
     /**
@@ -152,7 +152,7 @@ public class Controller
             }
         }
 
-        statusMessage.setText(result);
+        appendText(result);
     }
 
     /**
@@ -181,6 +181,8 @@ public class Controller
         }
         else
             result += (Consts.INVALID_INPUT);
+
+        appendText(result);
     }
 
     /**
@@ -208,6 +210,8 @@ public class Controller
         }
         else
             result += (Consts.INVALID_INPUT);
+
+        appendText(result);
     }
 
     /**
@@ -240,6 +244,8 @@ public class Controller
         }
         else
             result += (Consts.INVALID_INPUT);
+
+        appendText(result);
     }
 
     /**
@@ -270,6 +276,8 @@ public class Controller
         }
         else
             result += (Consts.INVALID_INPUT);
+
+        appendText(result);
     }
 
     /**
@@ -288,6 +296,8 @@ public class Controller
         }
         else
             result += (Consts.INVALID_INPUT);
+
+        appendText(result);
     }
 
     /**
@@ -322,6 +332,8 @@ public class Controller
         }
         else
             result += (Consts.INVALID_INPUT);
+
+        appendText(result);
     }
 
     /**
@@ -419,8 +431,12 @@ public class Controller
         fileChooser.getExtensionFilters().add(extFilter);
         File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null)
-            statusMessage.setText(Consts.SELECTED + selectedFile.getName());
+            appendText((Consts.SELECTED + selectedFile.getName()));
 
         gatherInput(selectedFile);
+    }
+
+    public void appendText(String addon) {
+        statusMessage.setText(statusMessage.getText() + "\n" + addon);
     }
 }
