@@ -9,6 +9,14 @@
     -fx-font-size: 14pt;
 }
 
+.button:hover {
+    -fx-background-color: #f5d4d8;
+}
+
+.button:focused {
+    -fx-background-color: #d3b0b4;
+}
+
 .label {
     -fx-font-size: 16pt;
 }
@@ -16,6 +24,12 @@
 .label-title {
     -fx-font-size: 24pt;
     -fx-font-style: italic;
+}
+
+.text-area {
+    -fx-font-family: "SansSerif";
+    -fx-background-color: #d8c5af;
+    -fx-font-size: 18pt;
 }
 
 .menu-bar {
@@ -30,10 +44,11 @@
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-padding: 10px;
-
 }
 
-.menu-bar .menu-button:hover, .menu-bar .menu-button:focused, .menu-bar .menu-button:showing {
+.menu-bar .menu-button:hover,
+.menu-bar .menu-button:focused,
+.menu-bar .menu-button:showing {
     -fx-background: black ;
     -fx-opacity: 0.5;
     -fx-text-fill: white;

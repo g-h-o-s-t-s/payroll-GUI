@@ -1,7 +1,6 @@
 package com.group19.payrollGUI;
 
 import static com.group19.payrollGUI.Consts.*;
-
 /**
  * Container class, represents database list of employees.
  * Methods provided to lookup/add/remove employee, print out employee list,
@@ -187,12 +186,12 @@ public class Company
      */
     public String print()
     {
-        String output = BLANK;
+        StringBuilder output = new StringBuilder(BLANK);
         for (int i = 0; i < numEmployee; i++)
             if (emplist[i] != null)
-                output = output + (emplist[i].toString());
+                output.append(emplist[i].toString());
 
-        return output;
+        return output.toString();
     }
 
     /**
@@ -200,10 +199,8 @@ public class Company
      */
     public String printByDepartment()
     {
-        String result = "";
         sortByDepartment(emplist);
-        result += print();
-        return result;
+        return print();
     }
 
     /**
@@ -238,10 +235,8 @@ public class Company
      */
     public String printByDate()
     {
-        String result = "";
         sortByDate(emplist);
-        result += print();
-        return result;
+        return print();
     }
 
     /**

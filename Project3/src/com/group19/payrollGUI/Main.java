@@ -6,11 +6,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import static com.group19.payrollGUI.Consts.*;
+
 /**
  * Driver class, calls Client JavaFX class, Controller().
  * @author Sagnik Mukherjee, Michael Choe
  */
-@SuppressWarnings("WeakerAccess")
+
 public class Main extends Application
 {
     /**
@@ -25,8 +27,8 @@ public class Main extends Application
         Parent root =
                 FXMLLoader.load(getClass().getResource("View.fxml"));
         primaryStage.setTitle("Payroll Processing System");
-        primaryStage.setScene(new Scene(root, Consts.DEFAULT_WIDTH,
-                Consts.DEFAULT_HEIGHT));
+        primaryStage.setScene(new Scene(root, DEFAULT_WIDTH,
+                DEFAULT_HEIGHT));
         primaryStage.setResizable(false);
         primaryStage.show();
     }

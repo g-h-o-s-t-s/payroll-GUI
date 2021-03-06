@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.ScrollBar?>
-<?import javafx.scene.control.ScrollPane?>
-
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <VBox styleClass="root"
       stylesheets="/com/group19/payrollGUI/styles.css"
       xmlns:fx="http://javafx.com/fxml/1"
@@ -35,14 +23,12 @@
                     AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
                     AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" >
             <bottom>
-                <ScrollPane fx:id="bottomScrollPane" prefHeight="300.0">
-                    <Label fx:id="statusMessage" text = "Payroll Processing System Starts."
-                           onMouseEntered="#sayClearText">
-                        <padding>
-                            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
-                        </padding>
-                    </Label>
-                </ScrollPane>
+                <TextArea fx:id="statusMessage" maxHeight="360.0" maxWidth="1280.0"
+                          text = "Payroll Processing System Starts.">
+                    <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
+                    </padding>
+                </TextArea>
             </bottom>
             <top>
                 <Pane fx:id="titlePane" BorderPane.alignment="CENTER">
@@ -55,79 +41,65 @@
                 </Pane>
             </top>
             <center>
-                <HBox fx:id="centerHBox"
-                      maxHeight="-Infinity" maxWidth="-Infinity"
-                      minHeight="-Infinity" minWidth="-Infinity"
-                      BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
-                    <Button fx:id="addPartTime" mnemonicParsing="false"
-                            onMouseClicked="#sayAddPartTime"
-                            text="Add Part Time">
-                        <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                        </padding>
-                        <HBox.margin>
-                            <Insets bottom="5.0" left="20.0" right="20.0" top="15.0"/>
-                        </HBox.margin>
-                    </Button>
-                    <Button fx:id="addFullTime" mnemonicParsing="false"
-                            onMouseClicked="#sayAddFullTime"
-                            text="Add Full Time">
-                        <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                        </padding>
-                        <HBox.margin>
-                            <Insets bottom="5.0" left="5.0" right="20.0" top="15.0"/>
-                        </HBox.margin>
-                    </Button>
-                    <Button fx:id="addManagement" mnemonicParsing="false"
-                            onMouseClicked="#sayAddManagement"
-                            text="Add Management">
-                        <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                        </padding>
-                        <HBox.margin>
-                            <Insets bottom="5.0" left="5.0" right="20.0" top="15.0"/>
-                        </HBox.margin>
-                    </Button>
-                    <Button fx:id="calculate" mnemonicParsing="false"
-                            onMouseClicked="#sayCalculate"
-                            text="Calculate">
-                        <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                        </padding>
-                        <HBox.margin>
-                            <Insets bottom="5.0" left="5.0" right="20.0" top="15.0"/>
-                        </HBox.margin>
-                    </Button>
-                    <Button fx:id="setHours" mnemonicParsing="false"
-                            onMouseClicked="#saySetHours"
-                            text="Set Hours">
-                        <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                        </padding>
-                        <HBox.margin>
-                            <Insets bottom="5.0" left="5.0" right="20.0" top="15.0"/>
-                        </HBox.margin>
-                    </Button>
-                    <Button fx:id="remove" mnemonicParsing="false"
-                            onMouseClicked="#sayRemove" text="Remove">
-                        <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                        </padding>
-                        <HBox.margin>
-                            <Insets bottom="5.0" left="5.0" right="20.0" top="15.0"/>
-                        </HBox.margin>
-                    </Button>
-                    <Button fx:id="print" mnemonicParsing="false"
-                            onMouseClicked="#sayPrint" text="Print Database">
-                        <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                        </padding>
-                        <HBox.margin>
-                            <Insets bottom="5.0" left="5.0" right="20.0" top="15.0"/>
-                        </HBox.margin>
-                    </Button>
-                </HBox>
+                <ButtonBar fx:id="buttonBar" buttonOrder="L_HE+U+FBIX_NCYOA_T" buttonMinWidth="50.0"
+                           prefHeight="30.0" ButtonBar.buttonData="APPLY" translateX="-75.0">
+                    <buttons>
+                        <Button fx:id="addFullTime" mnemonicParsing="false" text="+ FT">
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </padding>
+                            <tooltip><Tooltip text="Add Full-Time Employee" /></tooltip>
+                        </Button>
+                        <Button fx:id="addPartTime" mnemonicParsing="false" text="+ PT">
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </padding>
+                            <tooltip><Tooltip text="Add Part-Time Employee" /></tooltip>
+                        </Button>
+                        <Button fx:id="addManagement" mnemonicParsing="false" text="+ MA">
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </padding>
+                            <tooltip><Tooltip text="Add Management Position" /></tooltip>
+                        </Button>
+                        <Button fx:id="remove" mnemonicParsing="false" text="REMOVE">
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </padding>
+                            <tooltip><Tooltip text="Remove Employee" /></tooltip>
+                        </Button>
+                        <Button fx:id="calculate" mnemonicParsing="false" text="PAYMENTS">
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </padding>
+                            <tooltip><Tooltip text="Calculate Employee Compensations" /></tooltip>
+                        </Button>
+                        <Button fx:id="setHours" mnemonicParsing="false" text="SET-HOURS">
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </padding>
+                            <tooltip><Tooltip text="Set Working Hours for Part-Time Employee." /></tooltip>
+                        </Button>
+                        <Button fx:id="print" mnemonicParsing="false" text="PRINT">
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </padding>
+                            <tooltip><Tooltip text="Print Database Contents" /></tooltip>
+                        </Button>
+                        <Button fx:id="printDate" mnemonicParsing="false" text="BY-DATE">
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </padding>
+                            <tooltip><Tooltip text="Print Database Contents by Hiring Date" /></tooltip>
+                        </Button>
+                        <Button fx:id="printDep" mnemonicParsing="false" text="BY-DEP">
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </padding>
+                            <tooltip><Tooltip text="Print Database Contents by Department" /></tooltip>
+                        </Button>
+                    </buttons>
+                </ButtonBar>
             </center>
         </BorderPane>
     </AnchorPane>

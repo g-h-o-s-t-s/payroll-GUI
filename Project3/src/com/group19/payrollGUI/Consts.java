@@ -100,7 +100,22 @@ public class Consts
             REMOVED = "Employee removed.",
             NONEXISTENT = "Employee doesn't exist.",
             SHUTDOWN = "Payroll Processing completed.",
-            ISEMPTY = "Employee database is empty.";
+            ISEMPTY = "Employee database is empty.\n" +
+                    "⠰⡿⠿⠛⠛⠻⠿⣷\n" +
+                    "⠀⠀⠀⠀⠀⠀⣀⣄⡀⠀⠀⠀⠀⢀⣀⣀⣤⣄⣀⡀\n" +
+                    "⠀⠀⠀⠀⠀⢸⣿⣿⣷⠀⠀⠀⠀⠛⠛⣿⣿⣿⡛⠿⠷\n" +
+                    "⠀⠀⠀⠀⠀⠘⠿⠿⠋⠀⠀⠀⠀⠀⠀⣿⣿⣿⠇\n" +
+                    "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠁\n" +
+                    "\n" +
+                    "⠀⠀⠀⠀⣿⣷⣄⠀⢶⣶⣷⣶⣶⣤⣀\n" +
+                    "⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀⠀⠈⠙⠻⠗\n" +
+                    "⠀⠀⠀⣰⣿⣿⣿⠀⠀⠀⠀⢀⣀⣠⣤⣴⣶⡄\n" +
+                    "⠀⣠⣾⣿⣿⣿⣥⣶⣶⣿⣿⣿⣿⣿⠿⠿⠛⠃\n" +
+                    "⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄\n" +
+                    "⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡁\n" +
+                    "⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁\n" +
+                    "⠀⠀⠛⢿⣿⣿⣿⣿⣿⣿⡿⠟\n" +
+                    "⠀⠀⠀⠀⠀⠉⠉⠉";
 
     //Constants that indicate which client command to execute.
     public static final String QUIT = "Q", ADDPARTTIME = "P",

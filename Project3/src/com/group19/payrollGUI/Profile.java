@@ -1,7 +1,6 @@
 package com.group19.payrollGUI;
 
 import static com.group19.payrollGUI.Consts.*;
-
 /**
  * Object class which contains company-relevant information of an employee.
  @author Sagnik Mukherjee, Michael Choe

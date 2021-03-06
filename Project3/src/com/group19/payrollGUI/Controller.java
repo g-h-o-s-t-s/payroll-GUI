@@ -1,8 +1,11 @@
 package com.group19.payrollGUI;
 
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -10,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import static com.group19.payrollGUI.Consts.*;
 /**
  * Client class, creates GUI object to handle user interaction.
  * @author Sagnik Mukherjee, Michael Choe
@@ -17,248 +21,203 @@ import java.util.Scanner;
 @SuppressWarnings("WeakerAccess")
 public class Controller
 {
-    public ScrollPane bottomScrollPane;
-    public Label statusMessage;
-    public Pane titlePane;
+    public AnchorPane contentAnchorPane;
+    public BorderPane primaryBorderPane;
     public MenuBar menuBar;
     public Menu menuFile;
     public MenuItem exportFile;
     public MenuItem importFile;
     public MenuItem quit;
-    public AnchorPane contentAnchorPane;
-    public BorderPane primaryBorderPane;
+    public Pane titlePane;
     public Label titleLabel;
-    public HBox centerHBox;
-    public Button addPartTime;
-    public Button addFullTime;
-    public Button addManagement;
-    public Button calculate;
-    public Button setHours;
-    public Button remove;
-    public Button print;
-    public static Company company = new Company();
+    public ButtonBar buttonBar;
+    @FXML private Button addPartTime;
+    @FXML private Button addFullTime;
+    @FXML private Button addManagement;
+    @FXML private Button calculate;
+    @FXML private Button setHours;
+    @FXML private Button remove;
+    @FXML private Button print;
+    @FXML private Button printDate;
+    @FXML private Button printDep;
+    @FXML private TextArea statusMessage;
+    public Company company = new Company();
+    public String[] inputs;
 
-    public void sayAddPartTime() {
-        appendText(Consts.ADDEDPT);
+    @FXML
+    public void initialize() {
+        addPartTime.setOnMouseClicked(event -> this.addPartTime());
+        addFullTime.setOnMouseClicked(event -> this.addFullTime());
+        addManagement.setOnMouseClicked(event -> this.addFullRole());
+        remove.setOnMouseClicked(event -> this.removeEmployee());
+        calculate.setOnMouseClicked(event -> this.calculate());
+        setHours.setOnMouseClicked(event -> this.setHours());
+        print.setOnMouseClicked(event -> this.printAll());
+        printDate.setOnMouseClicked(event -> this.printByDate());
+        printDep.setOnMouseClicked(event -> this.printByDepartment());
     }
 
-    public void sayAddFullTime() {
-        appendText(Consts.ADDEDFT);
+    public void appendText(String addon) {
+        statusMessage.setText(statusMessage.getText() + "\n" + addon);
     }
 
-    public void sayAddManagement() {
-        appendText(Consts.ADDEDMA);
-    }
-
-    public void sayRemove() {
-        appendText(Consts.REMOVED);
-    }
-
-    public void sayCalculate() {
-        appendText(Consts.CALCULATED);
-    }
-
-    public void saySetHours() {
-        appendText(Consts.SETHOURS);
-    }
-
-    public void sayClearText() {
-        statusMessage.setText(Consts.BLANK);
-    }
-
-    public void sayPrint() {
-        appendText((Consts.PRINT_HEADER));
+    public void exitProgram() {
+        appendText(SHUTDOWN);Platform.exit();
     }
 
     /**
-     * Driver method to run Kiosk commands.
+     * Driver method to process input and invoke GUI commands.
      * Methods should be matched to buttons.
+     * @param file text File which is imported from user storage
      */
     public void gatherInput(File file)
     {
         String input;
-        String[] inputs;
-        String result = "";
         boolean loop = true;
         Scanner scn = null;
         try {
             scn = new Scanner(file);
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | NullPointerException e) {
             e.printStackTrace();
+            loop = false;
         }
 
         while (loop)
         {
-            assert scn != null;
             if (!scn.hasNextLine()) break;
             input = scn.nextLine();
             if (input.equals(""))
                 continue;
-            if (input.equals(Consts.QUIT)) {
+            if (input.equals(QUIT)) {
                 loop = false;
                 continue;
             }
 
-            inputs = input.split(Consts.DELIMITER);
-            String command = inputs[Consts.SPLITONE];
+            inputs = input.split(DELIMITER);
+            String command = inputs[SPLITONE];
             switch (command) {
-                case Consts.ADDPARTTIME:
-                    addPartTime(inputs, company, result);
-                    break;
-                case Consts.ADDFULLTIME:
-                    addFullTime(inputs, company, result);
-                    break;
-                case Consts.ADDFULLROLE:
-                    addFullRole(inputs, company, result);
-                    break;
-                case Consts.REMOVE:
-                    removeEmployee(inputs, company, result);
-                    break;
-                case Consts.CALCULATE:
-                    calculate(inputs, company, result);
-                    break;
-                case Consts.SET:
-                    setHours(inputs, company, result);
-                    break;
-                case Consts.PRINTALL:
-                    if (company.isEmpty())
-                        result += (Consts.ISEMPTY);
-                    else {
-                        result+= (Consts.PRINT_HEADER);
-                        result += company.print();
-                    }
-                    break;
-                case Consts.PRINTHIRED:
-                    if (company.isEmpty())
-                        result += (Consts.ISEMPTY);
-                    else {
-                        result+= (Consts.PRINTDATE_HEADER);
-                        result += company.printByDate();
-                    }
-                    break;
-                case Consts.PRINTDEPART:
-                    if (company.isEmpty())
-                        result += Consts.ISEMPTY;
-                    else {
-                        result += (Consts.PRINTDEP_HEADER);
-                        result += company.printByDepartment();
-                    }
-                    break;
+                case ADDPARTTIME -> addPartTime();
+                case ADDFULLTIME -> addFullTime();
+                case ADDFULLROLE -> addFullRole();
+                case REMOVE -> removeEmployee();
+                case CALCULATE -> calculate();
+                case SET -> setHours();
+                case PRINTALL -> printAll();
+                case PRINTHIRED -> printByDate();
+                case PRINTDEPART -> printByDepartment();
 
-                default:
-                    result += ("Command '"
+                default -> appendText("Command '"
                             + command + "' not supported!" + "\n");
-                    break;
             }
         }
+    }
 
-        appendText(result);
+    public void openImportDialog() {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter =
+                new FileChooser.ExtensionFilter("TXT files (*.txt)",
+                        "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null)
+            appendText((SELECTED + selectedFile.getName()));
+
+        gatherInput(selectedFile);
     }
 
     /**
      * Helper method to execute "Add Part Time" client command.
-     * @param inputs String[] reference pass of return value of split()
-     * @param company Company, reference pass of company bag container
      */
-    public void addPartTime(String[] inputs, Company company, String result) {
-        if (inputs.length == Consts.FIVEINPUTS) {
+    @FXML
+    public void addPartTime() {
+        if (inputs.length == FIVEINPUTS) {
             try {
                 Profile profile = inputBreakdown(inputs);
 
-                double pay = Double.parseDouble(inputs[Consts.SPLITFIVE]);
+                double pay = Double.parseDouble(inputs[SPLITFIVE]);
                 validatePayRate(pay);
-                int hw = Consts.DEFAULTHOURS;
 
-                Parttime addThis = new Parttime(profile, pay, hw);
+                Parttime addThis = new Parttime(profile, pay, DEFAULTHOURS);
                 if (company.add(addThis))
-                    result += Consts.ADDED;
+                    appendText(ADDEDPT);
                 else
-                    result += (Consts.DUPLICATE);
+                    appendText(DUPLICATE);
 
             } catch (InputMismatchException | NumberFormatException ex) {
-                result += (ex.getMessage());
+                appendText(ex.getMessage());
             }
         }
         else
-            result += (Consts.INVALID_INPUT);
-
-        appendText(result);
+            appendText(INVALID_INPUT);
     }
 
     /**
      * Helper method to execute "Add Full Time" client command.
-     * @param inputs String[] reference pass of return value of split()
-     * @param company Company, reference pass of company bag container
      */
-    private void addFullTime(String[] inputs, Company company, String result) {
-        if (inputs.length == Consts.FIVEINPUTS) {
+    @FXML
+    private void addFullTime() {
+        if (inputs.length == FIVEINPUTS) {
             try {
                 Profile profile = inputBreakdown(inputs);
 
-                double pay = Double.parseDouble(inputs[Consts.SPLITFIVE]);
+                double pay = Double.parseDouble(inputs[SPLITFIVE]);
                 validateSalary(pay);
 
                 Fulltime addThis = new Fulltime(profile, pay);
                 if (company.add(addThis))
-                    result += (Consts.ADDED);
+                    appendText(ADDEDFT);
                 else
-                    result += (Consts.DUPLICATE);
+                    appendText(DUPLICATE);
 
             } catch (InputMismatchException | NumberFormatException ex) {
-                result += (ex.getMessage());
+                appendText(ex.getMessage());
             }
         }
         else
-            result += (Consts.INVALID_INPUT);
-
-        appendText(result);
+            appendText(INVALID_INPUT);
     }
 
     /**
      * Helper method to execute "Add Full Time Management" client command.
-     * @param inputs String[] reference pass of return value of split()
-     * @param company Company, reference pass of company bag container
      */
-    private void addFullRole(String[] inputs, Company company, String result)
+    @FXML
+    private void addFullRole()
     {
-        if (inputs.length == Consts.SIXINPUTS) {
+        if (inputs.length == SIXINPUTS) {
             try {
                 Profile profile = inputBreakdown(inputs);
 
-                double pay = Double.parseDouble(inputs[Consts.SPLITFIVE]);
+                double pay = Double.parseDouble(inputs[SPLITFIVE]);
                 //handles -0.0, though this input is unlikely
                 validateSalary(pay);
 
-                int code = Integer.parseInt(inputs[Consts.SPLITSIX]);
+                int code = Integer.parseInt(inputs[SPLITSIX]);
                 validateCode(code);
 
 
                 Management addThis = new Management(profile, pay, code);
                 if (company.add(addThis))
-                    result += (Consts.ADDED);
+                    appendText(ADDEDMA);
                 else
-                    result += (Consts.DUPLICATE);
+                    appendText(DUPLICATE);
             } catch (InputMismatchException | NumberFormatException ex) {
-                result += (ex.getMessage());
+                appendText(ex.getMessage());
             }
         }
         else
-            result += (Consts.INVALID_INPUT);
-
-        appendText(result);
+            appendText(INVALID_INPUT);
     }
 
     /**
      * Helper method to execute "Remove" client command.
-     * @param inputs String[] reference pass of return value of split()
-     * @param company Company, reference pass of company bag container
      */
-    private void removeEmployee(String[] inputs, Company company, String result)
+    @FXML
+    private void removeEmployee()
     {
         if (company.isEmpty())
-            result += (Consts.ISEMPTY);
+            appendText(ISEMPTY);
 
-        else if (inputs.length == Consts.FOURINPUTS) {
+        else if (inputs.length == FOURINPUTS) {
             try {
                 Profile profile = inputBreakdown(inputs);
 
@@ -266,55 +225,49 @@ public class Controller
                 key.setProfile(profile);
 
                 if (company.remove(key))
-                    result += (Consts.REMOVED);
+                    appendText(REMOVED);
                 else
-                    result += (Consts.NONEXISTENT);
+                    appendText(NONEXISTENT);
 
             } catch (InputMismatchException | NumberFormatException ex) {
-                result += (ex.getMessage());
+                appendText(ex.getMessage());
             }
         }
         else
-            result += (Consts.INVALID_INPUT);
-
-        appendText(result);
+            appendText(INVALID_INPUT);
     }
 
     /**
      * Helper method to execute "Calculate" client command.
-     * @param inputs String[] reference pass of return value of split()
-     * @param company Company, reference pass of company bag container
      */
-    private void calculate(String[] inputs, Company company, String result)
+    @FXML
+    private void calculate()
     {
         if (company.isEmpty())
-            result += (Consts.ISEMPTY);
+            appendText(ISEMPTY);
 
-        else if (inputs.length == Consts.ONEINPUT) {
+        else if (inputs.length == ONEINPUT) {
             company.processPayments();
-            result += (Consts.CALCULATED);
+            appendText(CALCULATED);
         }
         else
-            result += (Consts.INVALID_INPUT);
-
-        appendText(result);
+            appendText(INVALID_INPUT);
     }
 
     /**
      * Helper method to execute "Set" client command.
-     * @param inputs String[] reference pass of return value of split()
-     * @param company Company, reference pass of company bag container
      */
-    private void setHours(String[] inputs, Company company, String result)
+    @FXML
+    private void setHours()
     {
         if (company.isEmpty())
-            result += (Consts.ISEMPTY);
+            appendText(ISEMPTY);
 
-        else if (inputs.length == Consts.FIVEINPUTS) {
+        else if (inputs.length == FIVEINPUTS) {
             try {
                 Profile profile = inputBreakdown(inputs);
 
-                int hoursToSet = Integer.parseInt(inputs[Consts.SPLITFIVE]);
+                int hoursToSet = Integer.parseInt(inputs[SPLITFIVE]);
                 validateHours(hoursToSet);
 
                 Parttime key = new Parttime();
@@ -322,18 +275,61 @@ public class Controller
                 key.setHoursWorked(hoursToSet);
 
                 if (company.setHours(key))
-                    result += (Consts.SETHOURS);
+                    appendText(SETHOURS);
                 else
-                    result += (Consts.NONEXISTENT);
+                    appendText(NONEXISTENT);
 
             } catch (InputMismatchException | NumberFormatException ex) {
-                result += (ex.getMessage());
+                appendText(ex.getMessage());
             }
         }
         else
-            result += (Consts.INVALID_INPUT);
+            appendText(INVALID_INPUT);
+    }
 
-        appendText(result);
+    /**
+     * Handles printAll onMouseClicked action.
+     */
+    @FXML
+    private void printAll()
+    {
+        if (company.isEmpty())
+            appendText(ISEMPTY);
+
+        else {
+            appendText(PRINT_HEADER);
+            appendText(company.print());
+        }
+    }
+
+    /**
+     * Handles printByDate onMouseClicked action.
+     */
+    @FXML
+    private void printByDate()
+    {
+        if (company.isEmpty())
+            appendText(ISEMPTY);
+
+        else {
+            appendText(PRINTDATE_HEADER);
+            appendText(company.printByDate());
+        }
+    }
+
+    /**
+     * Handles printByDepartment onMouseClicked action.
+     */
+    @FXML
+    private void printByDepartment()
+    {
+        if (company.isEmpty())
+            appendText(ISEMPTY);
+
+        else {
+            appendText(PRINTDEP_HEADER);
+            appendText(company.printByDepartment());
+        }
     }
 
     /**
@@ -341,14 +337,12 @@ public class Controller
      * among the command-based helper methods. This code appears in five
      * other methods and was very redundant, so refactoring as a private
      * method proved to be necessary.
-     * @param inputs String[], contains substrings of user input
-     * @return Profile containing validated information from user input
      */
     private Profile inputBreakdown(String[] inputs)
     {
-        String name = inputs[Consts.SPLITTWO];
-        String department = inputs[Consts.SPLITTHREE];
-        String dateStr = inputs[Consts.SPLITFOUR];
+        String name = inputs[SPLITTWO];
+        String department = inputs[SPLITTHREE];
+        String dateStr = inputs[SPLITFOUR];
         Date date = new Date(dateStr);
         validateSharedInput(name, department, date);
 
@@ -364,17 +358,17 @@ public class Controller
     private void validateSharedInput(String name, String dep, Date date)
             throws InputMismatchException
     {
-        if (name.split(" ").length != Consts.NAMES)
+        if (name.split(" ").length != NAMES)
             throw new InputMismatchException("'" + name + "'"
-                    + Consts.INVALID_NAME);
-        if (!(dep.equals(Consts.CS)
-                || dep.equals(Consts.ECE)
-                || dep.equals(Consts.IT)))
+                    + INVALID_NAME);
+        if (!(dep.equals(CS)
+                || dep.equals(ECE)
+                || dep.equals(IT)))
             throw new InputMismatchException("'" + dep + "'"
-                    + Consts.INVALID_DEP);
+                    + INVALID_DEP);
         if (!date.isValid())
             throw new InputMismatchException(date.toString()
-                    + Consts.INVALID_DATE);
+                    + INVALID_DATE);
     }
 
     /**
@@ -383,8 +377,8 @@ public class Controller
      */
     private void validateSalary(double pay) throws InputMismatchException
     {
-        if (Double.compare(pay, Consts.ZERO) < 0)
-            throw new InputMismatchException(Consts.INVALID_SALARY);
+        if (Double.compare(pay, ZERO) < 0)
+            throw new InputMismatchException(INVALID_SALARY);
     }
 
     /**
@@ -393,8 +387,8 @@ public class Controller
      */
     private void validatePayRate(double pay) throws InputMismatchException
     {
-        if (Double.compare(pay, Consts.ZERO) < 0)
-            throw new InputMismatchException(Consts.INVALID_PAYRATE);
+        if (Double.compare(pay, ZERO) < 0)
+            throw new InputMismatchException(INVALID_PAYRATE);
     }
 
     /**
@@ -403,8 +397,8 @@ public class Controller
      */
     private void validateCode(int code) throws InputMismatchException
     {
-        if (!(code >= Consts.MA_CODE && code <= Consts.DI_CODE))
-            throw new InputMismatchException(Consts.INVALID_MGMT);
+        if (!(code >= MA_CODE && code <= DI_CODE))
+            throw new InputMismatchException(INVALID_MGMT);
     }
 
     /**
@@ -414,29 +408,8 @@ public class Controller
     private void validateHours(int hoursToSet) throws InputMismatchException
     {
         if (hoursToSet < 0)
-            throw new InputMismatchException(Consts.INVALID_HOURS_A);
-        if (hoursToSet > Consts.PARTTIME_MAX)
-            throw new InputMismatchException(Consts.INVALID_HOURS_B);
-    }
-
-    public void exitProgram() {
-        Platform.exit();
-    }
-
-    public void openImportDialog() {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter =
-                new FileChooser.ExtensionFilter("TXT files (*.txt)",
-                        "*.txt");
-        fileChooser.getExtensionFilters().add(extFilter);
-        File selectedFile = fileChooser.showOpenDialog(null);
-        if (selectedFile != null)
-            appendText((Consts.SELECTED + selectedFile.getName()));
-
-        gatherInput(selectedFile);
-    }
-
-    public void appendText(String addon) {
-        statusMessage.setText(statusMessage.getText() + "\n" + addon);
+            throw new InputMismatchException(INVALID_HOURS_A);
+        if (hoursToSet > PARTTIME_MAX)
+            throw new InputMismatchException(INVALID_HOURS_B);
     }
 }
