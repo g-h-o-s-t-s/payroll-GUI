@@ -1,5 +1,11 @@
 package com.group19.payrollGUI;
 
+import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import static com.group19.payrollGUI.Consts.*;
 /**
  * Container class, represents database list of employees.
@@ -35,8 +41,7 @@ public class Company
      * @param employee key to be matched to an object within emplist
      * @return integer value which holds the index of the object in emplist
      */
-    private int find(Employee employee)
-    {
+    private int find(Employee employee) {
         for (int i = 0; i < emplist.length; i++)
             if ((emplist[i] != null) && (emplist[i].getProfile())
                     .equals(employee.getProfile()))
@@ -65,8 +70,7 @@ public class Company
      * @param employee object to be added to the database
      * @return true if add() succeeded, false otherwise
      */
-    public boolean add(Employee employee)
-    {
+    public boolean add(Employee employee) {
         //do not add duplicate employee, and validate profile
         int alreadyInList = find(employee);
         if (alreadyInList != NOTFOUND
@@ -94,8 +98,7 @@ public class Company
      * @param employee object within emplist which will be set to null
      * @return true if remove() succeeded, false otherwise
      */
-    public boolean remove(Employee employee)
-    {
+    public boolean remove(Employee employee) {
         if (isEmpty())
             return false;
 
@@ -139,8 +142,7 @@ public class Company
      * @param employee object whose hoursWorked field will be assigned
      * @return true if setHours() succeeded, false otherwise
      */
-    public boolean setHours(Employee employee)
-    {
+    public boolean setHours(Employee employee) {
         if (isEmpty())
             return false;
 
@@ -213,8 +215,7 @@ public class Company
      * @param emplist array containing list of employees
      *
      */
-    private void sortByDepartment(Employee[] emplist)
-    {
+    private void sortByDepartment(Employee[] emplist) {
         for (int i = 1; i < emplist.length; i++)
         {
             int j = i - 1;
@@ -247,8 +248,7 @@ public class Company
      * Sorts array in ascending order of date that an Employee was hired.
      * @param emplist array containing list of employees
      */
-    private void sortByDate(Employee[] emplist)
-    {
+    private void sortByDate(Employee[] emplist) {
         //insertion sort, shift larger elements to the right as needed
         for (int i = 1; i < emplist.length; i++)
         {
@@ -267,6 +267,26 @@ public class Company
                 emplist[j + 1] = key;
             }
         }
+    }
+
+    /**
+     * Export contents of Company to text file.
+     */
+    public void exportDatabase() {
+        //allows user to select their own save location
+        FileChooser fileChooser = new FileChooser();
+        File fileOut = fileChooser.showSaveDialog(null);
+
+        try {
+            //write company contents to output file
+            FileOutputStream fOut = new FileOutputStream(fileOut);
+            String data = this.toString();
+
+            //converting string into byteStream for fileOutputStream use
+            byte[] b = data.getBytes();
+            fOut.write(b);
+            fOut.close();
+        } catch (IOException ignored) { }
     }
 }
 

@@ -10,8 +10,6 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -114,21 +112,7 @@ public class Controller
      * Handles the exporting of company contents to a text file.
      */
     public void handleExport() {
-        //allows user to select their own save location
-        File fileOut = fileChooser.showSaveDialog(null);
-
-        try {
-            //write company contents to output file
-            FileOutputStream fOut = new FileOutputStream(fileOut);
-            String data = this.toString();
-
-            //converting string into byteStream for fileOutputStream use
-            byte[] b = data.getBytes();
-            fOut.write(b);
-            fOut.close();
-        } catch (IOException ex) {
-            appendText(ex.getMessage());
-        }
+        company.exportDatabase();
     }
 
     /**

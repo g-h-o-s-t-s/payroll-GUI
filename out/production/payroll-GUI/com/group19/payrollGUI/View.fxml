@@ -10,12 +10,10 @@
       fx:controller="com.group19.payrollGUI.Controller">
     <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
         <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
-            <MenuItem fx:id="importFile" mnemonicParsing="false" text="Import..."
-                onAction="#openImportDialog"/>
+            <MenuItem fx:id="importFile" mnemonicParsing="false" text="Import..."/>
             <MenuItem fx:id="exportFile" mnemonicParsing="false" text="Export..."/>
             <SeparatorMenuItem mnemonicParsing="false"/>
-            <MenuItem fx:id="quit" mnemonicParsing="false" text="Quit"
-            onAction="#exitProgram"/>
+            <MenuItem fx:id="quit" mnemonicParsing="false" text="Quit"/>
         </Menu>
     </MenuBar>
     <AnchorPane fx:id="contentAnchorPane" VBox.vgrow="ALWAYS">
