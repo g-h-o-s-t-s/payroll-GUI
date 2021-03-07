@@ -16,8 +16,7 @@ public class Profile
     /**
      * Default constructor for Profile.
      */
-    public Profile()
-    {
+    public Profile() {
         name = "";
         department = "";
         dateHired = new Date();
@@ -42,8 +41,7 @@ public class Profile
      * must be "CS", "ECE", or "IT", and dateHired must be a valid Date.
      * @return true if Profile object contains valid fields, false otherwise
      */
-    public boolean isValid()
-    {
+    public boolean isValid() {
         return name.split(",").length == NAMES
                 && (department.equals(CS)
                     || department.equals(ECE)
@@ -80,8 +78,7 @@ public class Profile
      * @return String literal containing Profile field values
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return name + SEPARATOR + department
                 + SEPARATOR + dateHired;
     }

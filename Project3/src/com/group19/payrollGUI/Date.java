@@ -44,8 +44,7 @@ public class Date implements Comparable<Date>
      * Uses Calendar class to get current date, and
      * assigns values to fields accordingly.
      */
-    public Date()
-    {
+    public Date() {
         Calendar current = Calendar.getInstance();
 
         //months start from 0 in Calendar class, so increment by 1
@@ -63,8 +62,7 @@ public class Date implements Comparable<Date>
      * the given year, or is in the future, it is not a valid date.
      * @return true if date is valid, false otherwise
      */
-    public boolean isValid()
-    {
+    public boolean isValid() {
         //four base-cases: month/day/year out of bounds,
         //or the date is in the future
         if (this.year < Consts.YEARMIN)
@@ -112,8 +110,7 @@ public class Date implements Comparable<Date>
      * we can skip two else-cases.
      * @return true if leap year, false otherwise
      */
-    private boolean isLeap()
-    {
+    private boolean isLeap() {
         boolean result = false;
         if (year % Consts.QUADRENNIAL == 0)
         {
@@ -191,8 +188,7 @@ public class Date implements Comparable<Date>
      * @return String literal of Book field values
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("%d/%d/%d", this.month,
                 this.day, this.year);
     }

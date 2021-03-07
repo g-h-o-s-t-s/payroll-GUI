@@ -13,8 +13,7 @@ public class Employee {
     /**
      * Default constructor for Employee.
      */
-    public Employee()
-    {
+    public Employee() {
         profile = new Profile();
         periodEarnings = Consts.ZERO;
     }
@@ -33,8 +32,7 @@ public class Employee {
      * Getter for Profile field of this Employee object.
      * @return Profile instance variable value
      */
-    public Profile getProfile()
-    {
+    public Profile getProfile() {
         return profile;
     }
 
@@ -66,8 +64,7 @@ public class Employee {
     /**
      * Determines Employee compensation, reused in subclasses.
      */
-    public void calculatePayment()
-    {
+    public void calculatePayment() {
         periodEarnings = Consts.ZERO;
     }
 
@@ -76,8 +73,7 @@ public class Employee {
      * @return String literal containing Employee field values
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return profile.toString();
     }
 

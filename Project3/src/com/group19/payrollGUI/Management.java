@@ -13,8 +13,7 @@ public class Management extends Fulltime
     /**
      * Default constructor for Management.
      */
-    public Management()
-    {
+    public Management() {
         super();
         bonusPay = Consts.MANAGER_BONUS;
         code = Consts.MA_CODE;
@@ -78,8 +77,7 @@ public class Management extends Fulltime
      * @return String literal containing Management field values
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         if (code == Consts.MA_CODE)
             return super.toString()
                     + Consts.MANAGER_MSG + Consts.df.format(bonusPay);
@@ -111,8 +109,7 @@ public class Management extends Fulltime
      * Determines Management compensation based on data fields.
      */
     @Override
-    public void calculatePayment()
-    {
+    public void calculatePayment() {
         double pe = getAnnualSalary() / Consts.PAYPERIODS + bonusPay;
         setPeriodEarnings(pe);
     }

@@ -12,8 +12,7 @@ public class Fulltime extends Employee
     /**
      * Default constructor for Fulltime.
      */
-    public Fulltime()
-    {
+    public Fulltime() {
         super();
         annualSalary = Consts.ZERO;
     }
@@ -65,8 +64,7 @@ public class Fulltime extends Employee
      * @return String literal containing Fulltime field values
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return super.toString()+ Consts.PAYCHECK_MSG
                 + Consts.df.format(getPeriodEarnings())
                 + Consts.SEPARATOR + Consts.FULLTIME
@@ -91,8 +89,7 @@ public class Fulltime extends Employee
      * Determines Fulltime compensation based on data fields.
      */
     @Override
-    public void calculatePayment()
-    {
+    public void calculatePayment() {
         double pe = annualSalary / Consts.PAYPERIODS;
         setPeriodEarnings(pe);
     }

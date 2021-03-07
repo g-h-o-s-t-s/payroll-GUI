@@ -10,6 +10,8 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -21,13 +23,14 @@ import static com.group19.payrollGUI.Consts.*;
 @SuppressWarnings("WeakerAccess")
 public class Controller
 {
+    @FXML public FileChooser fileChooser = new FileChooser();
     public AnchorPane contentAnchorPane;
     public BorderPane primaryBorderPane;
     public MenuBar menuBar;
     public Menu menuFile;
-    public MenuItem exportFile;
-    public MenuItem importFile;
-    public MenuItem quit;
+    @FXML private MenuItem exportFile;
+    @FXML private MenuItem importFile;
+    @FXML private MenuItem quit;
     public Pane titlePane;
     public Label titleLabel;
     public ButtonBar buttonBar;
@@ -44,8 +47,19 @@ public class Controller
     public Company company = new Company();
     public String[] inputs;
 
+    /**
+     * A sort of "constructor" class for the Controller.
+     * Initializes all the Action Events and MouseClicked Events associated
+     * with MenuItems and Buttons.
+     */
     @FXML
     public void initialize() {
+        //MenuItem Events
+        importFile.setOnAction(event -> this.handleImport());
+        exportFile.setOnAction(event -> this.handleExport());
+        quit.setOnAction(event -> this.exitProgram());
+
+        //Button Events
         addPartTime.setOnMouseClicked(event -> this.addPartTime());
         addFullTime.setOnMouseClicked(event -> this.addFullTime());
         addManagement.setOnMouseClicked(event -> this.addFullRole());
@@ -57,12 +71,64 @@ public class Controller
         printDep.setOnMouseClicked(event -> this.printByDepartment());
     }
 
+    /**
+     * Appends messages to the TextArea.
+     * @param addon String literal to be appended to the TextArea.
+     */
     public void appendText(String addon) {
         statusMessage.setText(statusMessage.getText() + "\n" + addon);
     }
 
+    /**
+     * Allows an alternative way to the "X" in the window corner
+     * for exiting the GUI program.
+     */
     public void exitProgram() {
-        appendText(SHUTDOWN);Platform.exit();
+        appendText(SHUTDOWN);
+        Platform.exit();
+    }
+
+    /**
+     * Handles the importing of a text file for use within GUI.
+     */
+    public void handleImport() {
+        //allow user to choose only text files
+        FileChooser.ExtensionFilter extFilter =
+                new FileChooser.ExtensionFilter("TXT files (*.txt)",
+                        "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        //process file, if one was chosen at all
+        try {
+            if (selectedFile != null) {
+                appendText((SELECTED + selectedFile.getName()));
+                gatherInput(selectedFile);
+            }
+        } catch (NullPointerException ex) {
+            appendText(ex.getMessage());
+        }
+    }
+
+    /**
+     * Handles the exporting of company contents to a text file.
+     */
+    public void handleExport() {
+        //allows user to select their own save location
+        File fileOut = fileChooser.showSaveDialog(null);
+
+        try {
+            //write company contents to output file
+            FileOutputStream fOut = new FileOutputStream(fileOut);
+            String data = this.toString();
+
+            //converting string into byteStream for fileOutputStream use
+            byte[] b = data.getBytes();
+            fOut.write(b);
+            fOut.close();
+        } catch (IOException ex) {
+            appendText(ex.getMessage());
+        }
     }
 
     /**
@@ -70,15 +136,14 @@ public class Controller
      * Methods should be matched to buttons.
      * @param file text File which is imported from user storage
      */
-    public void gatherInput(File file)
-    {
+    public void gatherInput(File file) {
         String input;
         boolean loop = true;
         Scanner scn = null;
         try {
             scn = new Scanner(file);
-        } catch (FileNotFoundException | NullPointerException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException | NullPointerException ex) {
+            appendText(ex.getMessage());
             loop = false;
         }
 
@@ -110,19 +175,6 @@ public class Controller
                             + command + "' not supported!" + "\n");
             }
         }
-    }
-
-    public void openImportDialog() {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter =
-                new FileChooser.ExtensionFilter("TXT files (*.txt)",
-                        "*.txt");
-        fileChooser.getExtensionFilters().add(extFilter);
-        File selectedFile = fileChooser.showOpenDialog(null);
-        if (selectedFile != null)
-            appendText((SELECTED + selectedFile.getName()));
-
-        gatherInput(selectedFile);
     }
 
     /**
@@ -181,8 +233,7 @@ public class Controller
      * Helper method to execute "Add Full Time Management" client command.
      */
     @FXML
-    private void addFullRole()
-    {
+    private void addFullRole() {
         if (inputs.length == SIXINPUTS) {
             try {
                 Profile profile = inputBreakdown(inputs);
@@ -212,8 +263,7 @@ public class Controller
      * Helper method to execute "Remove" client command.
      */
     @FXML
-    private void removeEmployee()
-    {
+    private void removeEmployee() {
         if (company.isEmpty())
             appendText(ISEMPTY);
 
@@ -241,8 +291,7 @@ public class Controller
      * Helper method to execute "Calculate" client command.
      */
     @FXML
-    private void calculate()
-    {
+    private void calculate() {
         if (company.isEmpty())
             appendText(ISEMPTY);
 
@@ -258,8 +307,7 @@ public class Controller
      * Helper method to execute "Set" client command.
      */
     @FXML
-    private void setHours()
-    {
+    private void setHours() {
         if (company.isEmpty())
             appendText(ISEMPTY);
 
@@ -291,8 +339,7 @@ public class Controller
      * Handles printAll onMouseClicked action.
      */
     @FXML
-    private void printAll()
-    {
+    private void printAll() {
         if (company.isEmpty())
             appendText(ISEMPTY);
 
@@ -306,8 +353,7 @@ public class Controller
      * Handles printByDate onMouseClicked action.
      */
     @FXML
-    private void printByDate()
-    {
+    private void printByDate() {
         if (company.isEmpty())
             appendText(ISEMPTY);
 
@@ -321,8 +367,7 @@ public class Controller
      * Handles printByDepartment onMouseClicked action.
      */
     @FXML
-    private void printByDepartment()
-    {
+    private void printByDepartment() {
         if (company.isEmpty())
             appendText(ISEMPTY);
 

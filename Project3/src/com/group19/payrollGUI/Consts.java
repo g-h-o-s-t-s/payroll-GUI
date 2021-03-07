@@ -150,8 +150,7 @@ public class Consts
      * Constructor prevents other classes from instantiating objects of
      * type Consts when calling this class.
      */
-    private Consts()
-    {
+    private Consts() {
         throw new AssertionError();
     }
 }

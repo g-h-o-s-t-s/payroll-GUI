@@ -17,8 +17,7 @@ public class Company
     /**
      * Default constructor.
      */
-    public Company()
-    {
+    public Company() {
         emplist = new Employee[DEFAULT];
         numEmployee = 0;
     }
@@ -27,8 +26,7 @@ public class Company
      * Method to determine if this Company is empty.
      * @return true if this.emplist is empty, false otherwise
      */
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return (this.numEmployee == ZERO);
     }
 
@@ -53,8 +51,7 @@ public class Company
      * to a full emplist[], grow() should first make room in the array for
      * an employee to be added safely.
      */
-    private void grow()
-    {
+    private void grow() {
         Employee[] temp = new Employee[emplist.length + GROW];
         for (int i = 0; i < emplist.length; i++)
             temp[i] = emplist[i];
@@ -173,32 +170,39 @@ public class Company
      * Processes payments for all employees in database.
      * This is achieved by calling calculatePayment() for each Employee.
      */
-    public void processPayments()
-    {
+    public void processPayments() {
         for (int i = 0; i < numEmployee; i++)
             if (emplist[i] != null)
                 emplist[i].calculatePayment();
     }
 
     /**
-     * Prints earning statements for all employees.
-     * @return String literal of employee database contents
+     * Returns a message formatting the contents of Company object
+     * @return String literal containing Employee objects in Company
      */
-    public String print()
-    {
+    @Override
+    public String toString() {
         StringBuilder output = new StringBuilder(BLANK);
         for (int i = 0; i < numEmployee; i++)
             if (emplist[i] != null)
                 output.append(emplist[i].toString());
 
         return output.toString();
+
+    }
+
+    /**
+     * Prints earning statements for all employees.
+     * @return String literal of employee database contents
+     */
+    public String print() {
+        return this.toString();
     }
 
     /**
      * Prints earning statements, sorted by department.
      */
-    public String printByDepartment()
-    {
+    public String printByDepartment() {
         sortByDepartment(emplist);
         return print();
     }
@@ -233,8 +237,7 @@ public class Company
     /**
      * Prints earning statements, sorted by date hired.
      */
-    public String printByDate()
-    {
+    public String printByDate() {
         sortByDate(emplist);
         return print();
     }
@@ -266,3 +269,4 @@ public class Company
         }
     }
 }
+

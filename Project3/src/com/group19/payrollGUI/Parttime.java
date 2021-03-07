@@ -14,8 +14,7 @@ public class Parttime extends Employee
     /**
      * Default constructor for Parttime.
      */
-    public Parttime()
-    {
+    public Parttime() {
         super();
         hourlyPay = ZERO;
         hoursWorked = DEFAULTHOURS;
@@ -75,8 +74,7 @@ public class Parttime extends Employee
      * @return String literal containing Parttime field values
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return super.toString() + PAYCHECK_MSG
             + df.format(getPeriodEarnings())
             + SEPARATOR + PARTTIME
@@ -102,8 +100,7 @@ public class Parttime extends Employee
      * Determines Parttime compensation based on data fields.
      */
     @Override
-    public void calculatePayment()
-    {
+    public void calculatePayment() {
         int overtime = hoursWorked % FULLHOURS;
         int regularTime = hoursWorked - overtime;
         double overtimeRate = OVERTIME_RATE * hourlyPay;
