@@ -42,7 +42,7 @@ public class Profile
      * @return true if Profile object contains valid fields, false otherwise
      */
     public boolean isValid() {
-        return name.split(",").length == NAMES
+        return name.split(" ").length == NAMES
                 && (department.equals(CS)
                     || department.equals(ECE)
                     || department.equals(IT))

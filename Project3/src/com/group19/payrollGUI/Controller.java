@@ -103,16 +103,14 @@ public class Controller
                 appendText((SELECTED + selectedFile.getName()));
                 gatherInput(selectedFile);
             }
-        } catch (NullPointerException ex) {
-            appendText(ex.getMessage());
-        }
+        } catch (Exception ignored) { }
     }
 
     /**
      * Handles the exporting of company contents to a text file.
      */
     public void handleExport() {
-        company.exportDatabase();
+        appendText(company.exportDatabase());
     }
 
     /**
@@ -127,7 +125,7 @@ public class Controller
         try {
             scn = new Scanner(file);
         } catch (FileNotFoundException | NullPointerException ex) {
-            appendText(ex.getMessage());
+            appendText("EXCEPTION: " + ex.getMessage());
             loop = false;
         }
 
@@ -180,7 +178,7 @@ public class Controller
                     appendText(DUPLICATE);
 
             } catch (InputMismatchException | NumberFormatException ex) {
-                appendText(ex.getMessage());
+                appendText("EXCEPTION: " + ex.getMessage());
             }
         }
         else
@@ -206,7 +204,7 @@ public class Controller
                     appendText(DUPLICATE);
 
             } catch (InputMismatchException | NumberFormatException ex) {
-                appendText(ex.getMessage());
+                appendText("EXCEPTION: " + ex.getMessage());
             }
         }
         else
@@ -229,14 +227,13 @@ public class Controller
                 int code = Integer.parseInt(inputs[SPLITSIX]);
                 validateCode(code);
 
-
                 Management addThis = new Management(profile, pay, code);
                 if (company.add(addThis))
                     appendText(ADDEDMA);
                 else
                     appendText(DUPLICATE);
             } catch (InputMismatchException | NumberFormatException ex) {
-                appendText(ex.getMessage());
+                appendText("EXCEPTION: " + ex.getMessage());
             }
         }
         else
@@ -264,7 +261,7 @@ public class Controller
                     appendText(NONEXISTENT);
 
             } catch (InputMismatchException | NumberFormatException ex) {
-                appendText(ex.getMessage());
+                appendText("EXCEPTION: " + ex.getMessage());
             }
         }
         else
@@ -312,7 +309,7 @@ public class Controller
                     appendText(NONEXISTENT);
 
             } catch (InputMismatchException | NumberFormatException ex) {
-                appendText(ex.getMessage());
+                appendText("EXCEPTION: " + ex.getMessage());
             }
         }
         else

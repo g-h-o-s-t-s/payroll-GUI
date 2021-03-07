@@ -3,8 +3,7 @@ package com.group19.payrollGUI;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.PrintWriter;
 
 import static com.group19.payrollGUI.Consts.*;
 /**
@@ -187,7 +186,7 @@ public class Company
         StringBuilder output = new StringBuilder(BLANK);
         for (int i = 0; i < numEmployee; i++)
             if (emplist[i] != null)
-                output.append(emplist[i].toString());
+                output.append(emplist[i].toString()).append("\n");
 
         return output.toString();
 
@@ -271,22 +270,42 @@ public class Company
 
     /**
      * Export contents of Company to text file.
+     * @return file location name to append to TextArea
      */
-    public void exportDatabase() {
-        //allows user to select their own save location
+    public String exportDatabase() {
+        String result = "";
+
+        //allows user to select their own save location,
+        //restricted to text file type output
+        FileChooser.ExtensionFilter extFilter =
+                new FileChooser.ExtensionFilter("TXT files (*.txt)",
+                        "*.txt");
         FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(extFilter);
         File fileOut = fileChooser.showSaveDialog(null);
 
-        try {
-            //write company contents to output file
-            FileOutputStream fOut = new FileOutputStream(fileOut);
-            String data = this.toString();
+        //write company contents to output file
+        String data = this.toString();
+        if (fileOut != null) {
+            writeText(data, fileOut);
+            result = (SELECTED + fileOut.getName());
+        }
 
-            //converting string into byteStream for fileOutputStream use
-            byte[] b = data.getBytes();
-            fOut.write(b);
-            fOut.close();
-        } catch (IOException ignored) { }
+        return result;
+    }
+
+    /**
+     * PrintWriter helper to write String contents to file
+     * @param str data to be written to file
+     * @param file destination .txt file getting written to
+     */
+    private void writeText(String str, File file)
+    {
+        try {
+            PrintWriter writer;
+            writer = new PrintWriter(file);
+            writer.println(str);
+            writer.close();
+        } catch (Exception ignored) { }
     }
 }
-
