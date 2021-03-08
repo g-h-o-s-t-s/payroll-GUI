@@ -26,6 +26,8 @@ public class Controller
     public BorderPane primaryBorderPane;
     public MenuBar menuBar;
     public Menu menuFile;
+    @FXML private ToggleGroup employ;
+    @FXML private ToggleGroup depart;
     @FXML private MenuItem exportFile;
     @FXML private MenuItem importFile;
     @FXML private MenuItem quit;
@@ -58,12 +60,13 @@ public class Controller
         quit.setOnAction(event -> this.exitProgram());
 
         //Button Events
-        addPartTime.setOnMouseClicked(event -> this.addPartTime());
-        addFullTime.setOnMouseClicked(event -> this.addFullTime());
-        addManagement.setOnMouseClicked(event -> this.addFullRole());
-        remove.setOnMouseClicked(event -> this.removeEmployee());
-        calculate.setOnMouseClicked(event -> this.calculate());
-        setHours.setOnMouseClicked(event -> this.setHours());
+//        addPartTime.setOnMouseClicked(event -> this.addPartTime(inputs));
+//        addFullTime.setOnMouseClicked(event -> this.addFullTime());
+//        addManagement.setOnMouseClicked(event -> this.addFullRole());
+//        remove.setOnMouseClicked(event -> this.removeEmployee());
+        calculate.setOnMouseClicked(event -> this.calculate(
+                new String[]{CALCULATE}));
+//        setHours.setOnMouseClicked(event -> this.setHours());
         print.setOnMouseClicked(event -> this.printAll());
         printDate.setOnMouseClicked(event -> this.printByDate());
         printDep.setOnMouseClicked(event -> this.printByDepartment());
@@ -75,6 +78,10 @@ public class Controller
      */
     public void appendText(String addon) {
         statusMessage.setText(statusMessage.getText() + "\n" + addon);
+
+        //autoscroll cursor to bottom of text, un-highlight
+        statusMessage.selectPositionCaret(statusMessage.getLength());
+        statusMessage.deselect();
     }
 
     /**
@@ -82,7 +89,6 @@ public class Controller
      * for exiting the GUI program.
      */
     public void exitProgram() {
-        appendText(SHUTDOWN);
         Platform.exit();
     }
 
@@ -143,12 +149,12 @@ public class Controller
             inputs = input.split(DELIMITER);
             String command = inputs[SPLITONE];
             switch (command) {
-                case ADDPARTTIME -> addPartTime();
-                case ADDFULLTIME -> addFullTime();
-                case ADDFULLROLE -> addFullRole();
-                case REMOVE -> removeEmployee();
-                case CALCULATE -> calculate();
-                case SET -> setHours();
+                case ADDPARTTIME -> addPartTime(inputs);
+                case ADDFULLTIME -> addFullTime(inputs);
+                case ADDFULLROLE -> addFullRole(inputs);
+                case REMOVE -> removeEmployee(inputs);
+                case CALCULATE -> calculate(inputs);
+                case SET -> setHours(inputs);
                 case PRINTALL -> printAll();
                 case PRINTHIRED -> printByDate();
                 case PRINTDEPART -> printByDepartment();
@@ -163,7 +169,7 @@ public class Controller
      * Helper method to execute "Add Part Time" client command.
      */
     @FXML
-    public void addPartTime() {
+    public void addPartTime(String[] inputs) {
         if (inputs.length == FIVEINPUTS) {
             try {
                 Profile profile = inputBreakdown(inputs);
@@ -189,7 +195,7 @@ public class Controller
      * Helper method to execute "Add Full Time" client command.
      */
     @FXML
-    private void addFullTime() {
+    private void addFullTime(String[] inputs) {
         if (inputs.length == FIVEINPUTS) {
             try {
                 Profile profile = inputBreakdown(inputs);
@@ -215,7 +221,7 @@ public class Controller
      * Helper method to execute "Add Full Time Management" client command.
      */
     @FXML
-    private void addFullRole() {
+    private void addFullRole(String[] inputs) {
         if (inputs.length == SIXINPUTS) {
             try {
                 Profile profile = inputBreakdown(inputs);
@@ -244,7 +250,7 @@ public class Controller
      * Helper method to execute "Remove" client command.
      */
     @FXML
-    private void removeEmployee() {
+    private void removeEmployee(String[] inputs) {
         if (company.isEmpty())
             appendText(ISEMPTY);
 
@@ -272,7 +278,7 @@ public class Controller
      * Helper method to execute "Calculate" client command.
      */
     @FXML
-    private void calculate() {
+    private void calculate(String[] inputs) {
         if (company.isEmpty())
             appendText(ISEMPTY);
 
@@ -288,7 +294,7 @@ public class Controller
      * Helper method to execute "Set" client command.
      */
     @FXML
-    private void setHours() {
+    private void setHours(String[] inputs) {
         if (company.isEmpty())
             appendText(ISEMPTY);
 

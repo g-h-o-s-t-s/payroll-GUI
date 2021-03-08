@@ -92,11 +92,10 @@ public class Profile
     public boolean equals(Object obj)
     {
         //check if invoking object & param are of the same class
-        if (!(obj instanceof Profile))
+        if (!(obj instanceof Profile that))
             return false;
 
-        Profile that = (Profile) obj;
-        return this.name.equals(that.name)
+        return this.name.equals(that.getName())
                 && this.department.equals(that.department)
                 && this.dateHired.compareTo(that.dateHired) == ZERO;
     }

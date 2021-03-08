@@ -72,7 +72,7 @@ public class Consts
     public static final int PARTTIME_MAX = 100;
 
 
-    /* PayrollProcessing() class constants - Client */
+    /* Controller() class constants - Client */
     //Constants used to restrict and validate input, and select a substring
     //created by splitting the input line on whitespace.
     public static final int SPLITONE = 0, SPLITTWO = 1, SPLITTHREE = 2,
@@ -99,7 +99,6 @@ public class Consts
             SETHOURS = "Working hours set.",
             REMOVED = "Employee removed.",
             NONEXISTENT = "Employee doesn't exist.",
-            SHUTDOWN = "Payroll Processing completed.",
             ISEMPTY = "Employee database is empty.";
 
     //Constants that indicate which client command to execute.
