@@ -306,6 +306,8 @@ public class Company
             writer = new PrintWriter(file);
             writer.println(str);
             writer.close();
-        } catch (Exception ignored) { }
+        } catch (Exception ex) {
+            Controller.throwAlert(ex.getMessage());
+        }
     }
 }

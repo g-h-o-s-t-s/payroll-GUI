@@ -21,8 +21,8 @@
                     AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
                     AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" >
             <top>
-                <ButtonBar fx:id="buttonBar" buttonOrder="L_HE+U+FBIX_NCYOA_T" buttonMinWidth="50.0"
-                           prefHeight="80.0" ButtonBar.buttonData="APPLY" translateX="-75.0">
+                <ButtonBar buttonMinWidth="50.0" prefHeight="80.0"
+                           ButtonBar.buttonData="APPLY" translateX="-75.0">
                     <buttons>
                         <Button fx:id="addFullTime" mnemonicParsing="false" text="+ FT">
                             <padding>
@@ -82,8 +82,8 @@
                 </ButtonBar>
             </top>
             <center>
-<!--                <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="145.0" text="Name" textAlignment="RIGHT" />-->
-<!--                <TextField maxWidth="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="300.0" GridPane.columnIndex="1" />-->
+                <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="145.0" text="Name" textAlignment="RIGHT" />
+                <TextField maxWidth="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="300.0" GridPane.columnIndex="1" />
 <!--                <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="145.0" text="Department" GridPane.rowIndex="1" />-->
 <!--                <HBox prefHeight="11.0" prefWidth="446.0" GridPane.columnIndex="1" GridPane.rowIndex="1">-->
 <!--                    <RadioButton mnemonicParsing="false" prefHeight="40.0" prefWidth="91.0" selected="true" text="CS">-->

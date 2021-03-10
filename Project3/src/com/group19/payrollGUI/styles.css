@@ -1,24 +1,31 @@
 .root {
     -fx-font-family: "Arial";
     -fx-background-color: #d8c5af;
-    -fx-font-size: 18pt;
+    -fx-font-size: 15pt;
 }
 
-.button {
+.button,
+.split-menu-button,
+.split-menu-button > .label,
+.split-menu-button > .arrow-button {
     -fx-background-color: #f5d4b8;
     -fx-font-size: 14pt;
 }
 
-.button:hover {
+.button:hover,
+.split-menu-button > .label:hover,
+.split-menu-button > .arrow-button:hover {
     -fx-background-color: #f5d4d8;
 }
 
-.button:focused {
+.button:focused,
+.split-menu-button:focused > .label,
+.split-menu-button > .arrow-button:focused {
     -fx-background-color: #d3b0b4;
 }
 
 .label {
-    -fx-font-size: 16pt;
+    -fx-font-size: 15pt;
 }
 
 .label-title {

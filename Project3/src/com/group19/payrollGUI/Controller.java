@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -21,7 +20,7 @@ import static com.group19.payrollGUI.Consts.*;
 @SuppressWarnings("WeakerAccess")
 public class Controller
 {
-    @FXML public FileChooser fileChooser = new FileChooser();
+    private File fileHandle;
     public AnchorPane contentAnchorPane;
     public BorderPane primaryBorderPane;
     public MenuBar menuBar;
@@ -31,9 +30,6 @@ public class Controller
     @FXML private MenuItem exportFile;
     @FXML private MenuItem importFile;
     @FXML private MenuItem quit;
-    public Pane titlePane;
-    public Label titleLabel;
-    public ButtonBar buttonBar;
     @FXML private Button addPartTime;
     @FXML private Button addFullTime;
     @FXML private Button addManagement;
@@ -45,7 +41,7 @@ public class Controller
     @FXML private Button printDep;
     @FXML private TextArea statusMessage;
     public Company company = new Company();
-    public String[] inputs;
+    public String[] inputs = {""};
 
     /**
      * A sort of "constructor" class for the Controller.
@@ -60,13 +56,15 @@ public class Controller
         quit.setOnAction(event -> this.exitProgram());
 
         //Button Events
-//        addPartTime.setOnMouseClicked(event -> this.addPartTime(inputs));
-//        addFullTime.setOnMouseClicked(event -> this.addFullTime());
-//        addManagement.setOnMouseClicked(event -> this.addFullRole());
-//        remove.setOnMouseClicked(event -> this.removeEmployee());
+        //Note: having the inputs[] parameter means both manual input and
+        //input read from file can be supported
+        addPartTime.setOnMouseClicked(event -> this.addPartTime(inputs));
+        addFullTime.setOnMouseClicked(event -> this.addFullTime(inputs));
+        addManagement.setOnMouseClicked(event -> this.addFullRole(inputs));
+        remove.setOnMouseClicked(event -> this.removeEmployee(inputs));
         calculate.setOnMouseClicked(event -> this.calculate(
                 new String[]{CALCULATE}));
-//        setHours.setOnMouseClicked(event -> this.setHours());
+        setHours.setOnMouseClicked(event -> this.setHours(inputs));
         print.setOnMouseClicked(event -> this.printAll());
         printDate.setOnMouseClicked(event -> this.printByDate());
         printDep.setOnMouseClicked(event -> this.printByDepartment());
@@ -96,20 +94,23 @@ public class Controller
      * Handles the importing of a text file for use within GUI.
      */
     public void handleImport() {
+        FileChooser fileChooser = new FileChooser();
         //allow user to choose only text files
         FileChooser.ExtensionFilter extFilter =
                 new FileChooser.ExtensionFilter("TXT files (*.txt)",
                         "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
-        File selectedFile = fileChooser.showOpenDialog(null);
+        fileHandle = fileChooser.showOpenDialog(null);
 
         //process file, if one was chosen at all
         try {
-            if (selectedFile != null) {
-                appendText((SELECTED + selectedFile.getName()));
-                gatherInput(selectedFile);
+            if (fileHandle != null) {
+                appendText((SELECTED + fileHandle.getName()));
+                gatherInput();
             }
-        } catch (Exception ignored) { }
+        } catch (Exception ex) {
+            throwAlert(ex.getMessage());
+        }
     }
 
     /**
@@ -122,16 +123,15 @@ public class Controller
     /**
      * Driver method to process input and invoke GUI commands.
      * Methods should be matched to buttons.
-     * @param file text File which is imported from user storage
      */
-    public void gatherInput(File file) {
+    public void gatherInput() {
         String input;
         boolean loop = true;
         Scanner scn = null;
         try {
-            scn = new Scanner(file);
+            scn = new Scanner(fileHandle);
         } catch (FileNotFoundException | NullPointerException ex) {
-            appendText("EXCEPTION: " + ex.getMessage());
+            throwAlert(ex.getMessage());
             loop = false;
         }
 
@@ -184,7 +184,7 @@ public class Controller
                     appendText(DUPLICATE);
 
             } catch (InputMismatchException | NumberFormatException ex) {
-                appendText("EXCEPTION: " + ex.getMessage());
+                throwAlert(ex.getMessage());
             }
         }
         else
@@ -210,7 +210,7 @@ public class Controller
                     appendText(DUPLICATE);
 
             } catch (InputMismatchException | NumberFormatException ex) {
-                appendText("EXCEPTION: " + ex.getMessage());
+                throwAlert(ex.getMessage());
             }
         }
         else
@@ -239,7 +239,7 @@ public class Controller
                 else
                     appendText(DUPLICATE);
             } catch (InputMismatchException | NumberFormatException ex) {
-                appendText("EXCEPTION: " + ex.getMessage());
+                throwAlert(ex.getMessage());
             }
         }
         else
@@ -267,7 +267,7 @@ public class Controller
                     appendText(NONEXISTENT);
 
             } catch (InputMismatchException | NumberFormatException ex) {
-                appendText("EXCEPTION: " + ex.getMessage());
+                throwAlert(ex.getMessage());
             }
         }
         else
@@ -315,7 +315,7 @@ public class Controller
                     appendText(NONEXISTENT);
 
             } catch (InputMismatchException | NumberFormatException ex) {
-                appendText("EXCEPTION: " + ex.getMessage());
+                throwAlert(ex.getMessage());
             }
         }
         else
@@ -443,5 +443,22 @@ public class Controller
             throw new InputMismatchException(INVALID_HOURS_A);
         if (hoursToSet > PARTTIME_MAX)
             throw new InputMismatchException(INVALID_HOURS_B);
+    }
+
+    /**
+     * Helper to open Alert Dialog box when exception occurs.
+     * @param exceptionMsg String literal containing exception details
+     */
+    public static void throwAlert(String exceptionMsg)
+    {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Exception Occurred");
+        alert.setHeaderText("Exception Details.");
+        alert.setContentText(exceptionMsg);
+        alert.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                alert.close();
+            }
+        });
     }
 }

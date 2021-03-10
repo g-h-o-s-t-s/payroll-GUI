@@ -25,7 +25,7 @@ public class Main extends Application
     public void start(Stage primaryStage) throws Exception
     {
         Parent root =
-                FXMLLoader.load(getClass().getResource("View.fxml"));
+                FXMLLoader.load(getClass().getResource("View3.fxml"));
         primaryStage.setTitle("Payroll Processing System");
         primaryStage.setScene(new Scene(root, DEFAULT_WIDTH,
                 DEFAULT_HEIGHT));
