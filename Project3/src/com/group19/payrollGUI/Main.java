@@ -12,7 +12,6 @@ import static com.group19.payrollGUI.Consts.*;
  * Driver class, calls Client JavaFX class, Controller().
  * @author Sagnik Mukherjee, Michael Choe
  */
-
 public class Main extends Application
 {
     /**
@@ -25,7 +24,7 @@ public class Main extends Application
     public void start(Stage primaryStage) throws Exception
     {
         Parent root =
-                FXMLLoader.load(getClass().getResource("View3.fxml"));
+                FXMLLoader.load(getClass().getResource("View.fxml"));
         primaryStage.setTitle("Payroll Processing System");
         primaryStage.setScene(new Scene(root, DEFAULT_WIDTH,
                 DEFAULT_HEIGHT));

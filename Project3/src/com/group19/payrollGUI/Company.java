@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.PrintWriter;
 
 import static com.group19.payrollGUI.Consts.*;
+
 /**
  * Container class, represents database list of employees.
  * Methods provided to lookup/add/remove employee, print out employee list,

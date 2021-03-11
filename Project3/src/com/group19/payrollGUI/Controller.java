@@ -3,8 +3,6 @@ package com.group19.payrollGUI;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -13,35 +11,50 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static com.group19.payrollGUI.Consts.*;
+
 /**
  * Client class, creates GUI object to handle user interaction.
  * @author Sagnik Mukherjee, Michael Choe
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "FieldMayBeFinal"})
 public class Controller
 {
+    /* -- Data Fields. */
+    //General Usage.
     private File fileHandle;
-    public AnchorPane contentAnchorPane;
-    public BorderPane primaryBorderPane;
-    public MenuBar menuBar;
-    public Menu menuFile;
-    @FXML private ToggleGroup employ;
-    @FXML private ToggleGroup depart;
+    private Company company = new Company();
+    private String[] inputs = {""};
+
+    //User Input Form Nodes.
+    @FXML private TextField name;
+    @FXML private DatePicker date;
+    @FXML private TextField annualSalary;
+    @FXML private TextField hoursWorked;
+    @FXML private TextField hourlyRate;
+    @FXML private ToggleGroup department;
+    @FXML private RadioButton dep1, dep2, dep3;
+    @FXML private ToggleGroup type;
+    @FXML private RadioButton type1, type2, type3;
+    @FXML private ToggleGroup admin;
+    @FXML private RadioButton admin1, admin2, admin3;
+    @FXML private Button reset;
+
+    //Menu Bar Nodes.
     @FXML private MenuItem exportFile;
     @FXML private MenuItem importFile;
     @FXML private MenuItem quit;
-    @FXML private Button addPartTime;
-    @FXML private Button addFullTime;
-    @FXML private Button addManagement;
+
+    //Database-related Function Nodes.
+    @FXML private Button add;
     @FXML private Button calculate;
     @FXML private Button setHours;
     @FXML private Button remove;
-    @FXML private Button print;
-    @FXML private Button printDate;
-    @FXML private Button printDep;
+    @FXML private SplitMenuButton print;
+    @FXML private MenuItem printDate;
+    @FXML private MenuItem printDep;
+
+    //TextArea Node for console output as program runs.
     @FXML private TextArea statusMessage;
-    public Company company = new Company();
-    public String[] inputs = {""};
 
     /**
      * A sort of "constructor" class for the Controller.
@@ -50,7 +63,7 @@ public class Controller
      */
     @FXML
     public void initialize() {
-        //MenuItem Events
+        //MenuBar > MenuItem Events
         importFile.setOnAction(event -> this.handleImport());
         exportFile.setOnAction(event -> this.handleExport());
         quit.setOnAction(event -> this.exitProgram());
@@ -58,16 +71,44 @@ public class Controller
         //Button Events
         //Note: having the inputs[] parameter means both manual input and
         //input read from file can be supported
-        addPartTime.setOnMouseClicked(event -> this.addPartTime(inputs));
-        addFullTime.setOnMouseClicked(event -> this.addFullTime(inputs));
-        addManagement.setOnMouseClicked(event -> this.addFullRole(inputs));
-        remove.setOnMouseClicked(event -> this.removeEmployee(inputs));
-        calculate.setOnMouseClicked(event -> this.calculate(
-                new String[]{CALCULATE}));
-        setHours.setOnMouseClicked(event -> this.setHours(inputs));
+        add.setOnMouseClicked(event -> this.handleAdd());
+        remove.setOnMouseClicked(event -> this.removeEmployee());
+        calculate.setOnMouseClicked(event -> this.calculate());
+        setHours.setOnMouseClicked(event -> this.setHours());
+        reset.setOnMouseClicked(event -> this.resetForm());
+
+        //Input Form Radio Buttons, Setting "User Data" values
+        dep1.setUserData(CS);
+        dep2.setUserData(IT);
+        dep3.setUserData(ECE);
+        type1.setUserData(ADDPARTTIME);
+        type2.setUserData(ADDFULLTIME);
+        type3.setUserData(ADDFULLROLE);
+        admin1.setUserData(MA_CODE);
+        admin2.setUserData(DH_CODE);
+        admin3.setUserData(DI_CODE);
+
+        //Printing, SplitMenuButton > MenuItem Events
         print.setOnMouseClicked(event -> this.printAll());
-        printDate.setOnMouseClicked(event -> this.printByDate());
-        printDep.setOnMouseClicked(event -> this.printByDepartment());
+        printDate.setOnAction(event -> this.printByDate());
+        printDep.setOnAction(event -> this.printByDepartment());
+
+        //Reset Input Form's data.
+        reset.setOnMouseClicked(event -> resetForm());
+    }
+
+    /**
+     * Handler to reset form input.
+     */
+    private void resetForm() {
+        name.clear();
+        department.selectToggle(null);
+        date.setValue(null);
+        type.selectToggle(null);
+        annualSalary.clear();
+        hoursWorked.clear();
+        hourlyRate.clear();
+        admin.selectToggle(null);
     }
 
     /**
@@ -121,140 +162,193 @@ public class Controller
     }
 
     /**
+     * Intermediate handler for Add Button Event.
+     */
+    private void handleAdd() {
+        try {
+            String typeStr =
+                    type.getSelectedToggle().getUserData().toString();
+            if (typeStr.equals(ADDPARTTIME))
+                addPartTime();
+            else if (typeStr.equals(ADDFULLTIME))
+                addFullTime();
+            else
+                addFullRole();
+        } catch (NullPointerException ex) {
+            throwAlert(ex.getMessage());
+        }
+    }
+
+    /**
      * Driver method to process input and invoke GUI commands.
      * Methods should be matched to buttons.
      */
     public void gatherInput() {
         String input;
-        boolean loop = true;
         Scanner scn = null;
         try {
             scn = new Scanner(fileHandle);
         } catch (FileNotFoundException | NullPointerException ex) {
             throwAlert(ex.getMessage());
-            loop = false;
         }
 
-        while (loop)
-        {
+        //assert to avoid possible null pointer exception
+        while (true) {
+            assert scn != null;
             if (!scn.hasNextLine()) break;
             input = scn.nextLine();
             if (input.equals(""))
                 continue;
-            if (input.equals(QUIT)) {
-                loop = false;
-                continue;
-            }
 
             inputs = input.split(DELIMITER);
             String command = inputs[SPLITONE];
             switch (command) {
-                case ADDPARTTIME -> addPartTime(inputs);
-                case ADDFULLTIME -> addFullTime(inputs);
-                case ADDFULLROLE -> addFullRole(inputs);
-                case REMOVE -> removeEmployee(inputs);
-                case CALCULATE -> calculate(inputs);
-                case SET -> setHours(inputs);
-                case PRINTALL -> printAll();
-                case PRINTHIRED -> printByDate();
-                case PRINTDEPART -> printByDepartment();
+                //imported file only contains employees
+                //to be added
+                case ADDPARTTIME -> addPartTime();
+                case ADDFULLTIME -> addFullTime();
+                case ADDFULLROLE -> addFullRole();
 
                 default -> appendText("Command '"
-                            + command + "' not supported!" + "\n");
+                        + command + "' not supported!" + "\n");
             }
         }
+
+        scn.close();
+        fileHandle = null;
+    }
+
+    /**
+     * Converts manual user input from textFields and
+     * radioButtons to a String[] for inputs.
+     */
+    private void setInputs() {
+        try {
+            String nameStr = name.getText();
+            String depStr = department.getSelectedToggle().getUserData().toString();
+            String dateStr = date.getValue().toString();
+            dateStr = dateFormat(dateStr);
+            String typeStr =
+                    type.getSelectedToggle().getUserData().toString();
+            String salaryStr = annualSalary.getText();
+            String rateStr = hourlyRate.getText();
+            String adminStr =
+                    admin.getSelectedToggle().getUserData().toString();
+
+            if (typeStr.equals(ADDPARTTIME))
+                inputs = new String[]{typeStr, nameStr, depStr, dateStr, rateStr};
+            else if (typeStr.equals(ADDFULLTIME))
+                inputs = new String[]{typeStr, nameStr, depStr, dateStr, salaryStr};
+            else
+                inputs = new String[]{typeStr, nameStr, depStr, dateStr, salaryStr, adminStr};
+        } catch (Exception ex) {
+            throwAlert(ex.getMessage());
+        }
+    }
+
+    /**
+     * Formats the date toString value returned by DatePicker Node.
+     * Converts string from YYYY-MM-DD to MM-DD-YYYY.
+     * @param dateStr String of date to be formatted
+     * @return formatted String value of date
+     */
+    private String dateFormat(String dateStr)
+    {
+        String result = "";
+        String[] parts = dateStr.split("-");
+        if (parts.length == DATE_PARTS) {
+            result = parts[SPLITTWO] + "/" + parts[SPLITTHREE] + "/" + parts[SPLITONE];
+        }
+        return result;
     }
 
     /**
      * Helper method to execute "Add Part Time" client command.
      */
     @FXML
-    public void addPartTime(String[] inputs) {
-        if (inputs.length == FIVEINPUTS) {
-            try {
-                Profile profile = inputBreakdown(inputs);
+    public void addPartTime() {
+        //Set inputs[] based off user form if no file was imported.
+        if (fileHandle == null)
+            setInputs();
+        try {
+            Profile profile = inputBreakdown(inputs);
 
-                double pay = Double.parseDouble(inputs[SPLITFIVE]);
-                validatePayRate(pay);
+            double pay = Double.parseDouble(inputs[SPLITFIVE]);
+            validatePayRate(pay);
 
-                Parttime addThis = new Parttime(profile, pay, DEFAULTHOURS);
-                if (company.add(addThis))
-                    appendText(ADDEDPT);
-                else
-                    appendText(DUPLICATE);
+            Parttime addThis = new Parttime(profile, pay, DEFAULTHOURS);
+            if (company.add(addThis))
+                appendText(ADDEDPT);
+            else
+                appendText(DUPLICATE);
 
-            } catch (InputMismatchException | NumberFormatException ex) {
-                throwAlert(ex.getMessage());
-            }
+        } catch (Exception ex) {
+            throwAlert(ex.getMessage());
         }
-        else
-            appendText(INVALID_INPUT);
     }
 
     /**
      * Helper method to execute "Add Full Time" client command.
      */
     @FXML
-    private void addFullTime(String[] inputs) {
-        if (inputs.length == FIVEINPUTS) {
-            try {
-                Profile profile = inputBreakdown(inputs);
+    private void addFullTime() {
+        if (fileHandle == null)
+            setInputs();
+        try {
+            Profile profile = inputBreakdown(inputs);
 
-                double pay = Double.parseDouble(inputs[SPLITFIVE]);
-                validateSalary(pay);
+            double pay = Double.parseDouble(inputs[SPLITFIVE]);
+            validateSalary(pay);
 
-                Fulltime addThis = new Fulltime(profile, pay);
-                if (company.add(addThis))
-                    appendText(ADDEDFT);
-                else
-                    appendText(DUPLICATE);
+            Fulltime addThis = new Fulltime(profile, pay);
+            if (company.add(addThis))
+                appendText(ADDEDFT);
+            else
+                appendText(DUPLICATE);
 
-            } catch (InputMismatchException | NumberFormatException ex) {
-                throwAlert(ex.getMessage());
-            }
+        } catch (Exception ex) {
+            throwAlert(ex.getMessage());
         }
-        else
-            appendText(INVALID_INPUT);
+
     }
 
     /**
      * Helper method to execute "Add Full Time Management" client command.
      */
     @FXML
-    private void addFullRole(String[] inputs) {
-        if (inputs.length == SIXINPUTS) {
-            try {
-                Profile profile = inputBreakdown(inputs);
+    private void addFullRole() {
+        if (fileHandle == null)
+            setInputs();
+        try {
+            Profile profile = inputBreakdown(inputs);
 
-                double pay = Double.parseDouble(inputs[SPLITFIVE]);
-                //handles -0.0, though this input is unlikely
-                validateSalary(pay);
+            double pay = Double.parseDouble(inputs[SPLITFIVE]);
+            //handles -0.0, though this input is unlikely
+            validateSalary(pay);
 
-                int code = Integer.parseInt(inputs[SPLITSIX]);
-                validateCode(code);
+            int code = Integer.parseInt(inputs[SPLITSIX]);
+            validateCode(code);
 
-                Management addThis = new Management(profile, pay, code);
-                if (company.add(addThis))
-                    appendText(ADDEDMA);
-                else
-                    appendText(DUPLICATE);
-            } catch (InputMismatchException | NumberFormatException ex) {
-                throwAlert(ex.getMessage());
-            }
+            Management addThis = new Management(profile, pay, code);
+            if (company.add(addThis))
+                appendText(ADDEDMA);
+            else
+                appendText(DUPLICATE);
+        } catch (Exception ex) {
+            throwAlert(ex.getMessage());
         }
-        else
-            appendText(INVALID_INPUT);
     }
 
     /**
      * Helper method to execute "Remove" client command.
      */
     @FXML
-    private void removeEmployee(String[] inputs) {
+    private void removeEmployee() {
+        setInputs();
         if (company.isEmpty())
             appendText(ISEMPTY);
 
-        else if (inputs.length == FOURINPUTS) {
+        else {
             try {
                 Profile profile = inputBreakdown(inputs);
 
@@ -266,43 +360,40 @@ public class Controller
                 else
                     appendText(NONEXISTENT);
 
-            } catch (InputMismatchException | NumberFormatException ex) {
+            } catch (Exception ex) {
                 throwAlert(ex.getMessage());
             }
         }
-        else
-            appendText(INVALID_INPUT);
     }
 
     /**
      * Helper method to execute "Calculate" client command.
      */
     @FXML
-    private void calculate(String[] inputs) {
+    private void calculate() {
         if (company.isEmpty())
             appendText(ISEMPTY);
-
-        else if (inputs.length == ONEINPUT) {
+        else {
             company.processPayments();
             appendText(CALCULATED);
         }
-        else
-            appendText(INVALID_INPUT);
     }
 
     /**
      * Helper method to execute "Set" client command.
      */
     @FXML
-    private void setHours(String[] inputs) {
+    private void setHours() {
+        setInputs();
         if (company.isEmpty())
             appendText(ISEMPTY);
 
-        else if (inputs.length == FIVEINPUTS) {
+        else if (type.getSelectedToggle().getUserData().toString().
+                equals(ADDPARTTIME)){
             try {
                 Profile profile = inputBreakdown(inputs);
 
-                int hoursToSet = Integer.parseInt(inputs[SPLITFIVE]);
+                int hoursToSet = Integer.parseInt(hoursWorked.getText());
                 validateHours(hoursToSet);
 
                 Parttime key = new Parttime();
@@ -314,12 +405,10 @@ public class Controller
                 else
                     appendText(NONEXISTENT);
 
-            } catch (InputMismatchException | NumberFormatException ex) {
+            } catch (Exception ex) {
                 throwAlert(ex.getMessage());
             }
         }
-        else
-            appendText(INVALID_INPUT);
     }
 
     /**
@@ -372,13 +461,18 @@ public class Controller
      */
     private Profile inputBreakdown(String[] inputs)
     {
-        String name = inputs[SPLITTWO];
-        String department = inputs[SPLITTHREE];
-        String dateStr = inputs[SPLITFOUR];
-        Date date = new Date(dateStr);
-        validateSharedInput(name, department, date);
+        try {
+            String name = inputs[SPLITTWO];
+            String department = inputs[SPLITTHREE];
+            String dateStr = inputs[SPLITFOUR];
+            Date date = new Date(dateStr);
+            validateSharedInput(name, department, date);
 
-        return new Profile(name, department, date);
+            return new Profile(name, department, date);
+        } catch (Exception ex) {
+            throwAlert(ex.getMessage());
+        }
+        return new Profile();
     }
 
     /**
@@ -404,7 +498,7 @@ public class Controller
     }
 
     /**
-     * Helper method to validate salary before adding a Fulltime/Management.
+     * Helper method to validate salary before adding a FullTime/Management.
      * @param pay double salary amount to be validated (positive value)
      */
     private void validateSalary(double pay) throws InputMismatchException
@@ -414,7 +508,7 @@ public class Controller
     }
 
     /**
-     * Helper method to validate hourly pay rate before adding a Parttime.
+     * Helper method to validate hourly pay rate before adding a PartTime.
      * @param pay double payRate amount to be validated (positive value)
      */
     private void validatePayRate(double pay) throws InputMismatchException
@@ -434,7 +528,7 @@ public class Controller
     }
 
     /**
-     * Helper method to validate salary before adding a Fulltime/Management.
+     * Helper method to validate salary before adding a FullTime/Management.
      * @param hoursToSet int hoursWorked to be validated (positive value)
      */
     private void validateHours(int hoursToSet) throws InputMismatchException

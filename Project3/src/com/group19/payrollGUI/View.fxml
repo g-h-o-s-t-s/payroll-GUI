@@ -1,160 +1,225 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<VBox styleClass="root"
-      stylesheets="/com/group19/payrollGUI/styles.css"
-      xmlns:fx="http://javafx.com/fxml/1"
-      xmlns="http://javafx.com/javafx/10.0.1"
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
+      minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0"
+      styleClass="root" stylesheets="/com/group19/payrollGUI/styles.css"
+      xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.group19.payrollGUI.Controller">
-    <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
-        <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
-            <MenuItem fx:id="importFile" mnemonicParsing="false" text="Import..."/>
-            <MenuItem fx:id="exportFile" mnemonicParsing="false" text="Export..."/>
-            <SeparatorMenuItem mnemonicParsing="false"/>
-            <MenuItem fx:id="quit" mnemonicParsing="false" text="Quit"/>
+    <MenuBar VBox.vgrow="SOMETIMES">
+        <Menu mnemonicParsing="false" text="File">
+            <MenuItem fx:id="importFile" mnemonicParsing="false" text="Import..." />
+            <MenuItem fx:id="exportFile" mnemonicParsing="false" text="Export..." />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem fx:id="quit" mnemonicParsing="false" text="Quit" />
         </Menu>
     </MenuBar>
-    <AnchorPane fx:id="contentAnchorPane" VBox.vgrow="ALWAYS">
-        <BorderPane fx:id="primaryBorderPane"
-                    AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" >
-            <top>
-                <ButtonBar buttonMinWidth="50.0" prefHeight="80.0"
-                           ButtonBar.buttonData="APPLY" translateX="-75.0">
-                    <buttons>
-                        <Button fx:id="addFullTime" mnemonicParsing="false" text="+ FT">
-                            <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                            </padding>
-                            <tooltip><Tooltip text="Add Full-Time Employee" /></tooltip>
-                        </Button>
-                        <Button fx:id="addPartTime" mnemonicParsing="false" text="+ PT">
-                            <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                            </padding>
-                            <tooltip><Tooltip text="Add Part-Time Employee" /></tooltip>
-                        </Button>
-                        <Button fx:id="addManagement" mnemonicParsing="false" text="+ MA">
-                            <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                            </padding>
-                            <tooltip><Tooltip text="Add Management Position" /></tooltip>
-                        </Button>
-                        <Button fx:id="remove" mnemonicParsing="false" text="REMOVE">
-                            <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                            </padding>
-                            <tooltip><Tooltip text="Remove Employee" /></tooltip>
-                        </Button>
-                        <Button fx:id="calculate" mnemonicParsing="false" text="PAYMENTS">
-                            <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                            </padding>
-                            <tooltip><Tooltip text="Calculate Employee Compensations" /></tooltip>
-                        </Button>
-                        <Button fx:id="setHours" mnemonicParsing="false" text="SET-HOURS">
-                            <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                            </padding>
-                            <tooltip><Tooltip text="Set Working Hours for Part-Time Employee." /></tooltip>
-                        </Button>
-                        <Button fx:id="print" mnemonicParsing="false" text="PRINT">
-                            <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                            </padding>
-                            <tooltip><Tooltip text="Print Database Contents" /></tooltip>
-                        </Button>
-                        <Button fx:id="printDate" mnemonicParsing="false" text="BY-DATE">
-                            <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                            </padding>
-                            <tooltip><Tooltip text="Print Database Contents by Hiring Date" /></tooltip>
-                        </Button>
-                        <Button fx:id="printDep" mnemonicParsing="false" text="BY-DEP">
-                            <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                            </padding>
-                            <tooltip><Tooltip text="Print Database Contents by Department" /></tooltip>
-                        </Button>
-                    </buttons>
-                </ButtonBar>
-            </top>
-            <center>
-                <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="145.0" text="Name" textAlignment="RIGHT" />
-                <TextField maxWidth="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="300.0" GridPane.columnIndex="1" />
-<!--                <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="145.0" text="Department" GridPane.rowIndex="1" />-->
-<!--                <HBox prefHeight="11.0" prefWidth="446.0" GridPane.columnIndex="1" GridPane.rowIndex="1">-->
-<!--                    <RadioButton mnemonicParsing="false" prefHeight="40.0" prefWidth="91.0" selected="true" text="CS">-->
-<!--                        <toggleGroup>-->
-<!--                            <ToggleGroup fx:id="depart"/>-->
-<!--                        </toggleGroup>-->
-<!--                    </RadioButton>-->
-<!--                    <RadioButton mnemonicParsing="false" prefHeight="40.0" prefWidth="91.0" text="IT"-->
-<!--                                 toggleGroup="$depart"/>-->
-<!--                    <RadioButton mnemonicParsing="false" prefHeight="40.0" prefWidth="91.0" text="ECE"-->
-<!--                                 toggleGroup="$depart"/>-->
-<!--                </HBox>-->
-<!--                <Label alignment="CENTER_RIGHT" prefWidth="145.0" text="Date" GridPane.rowIndex="2" />-->
-<!--                <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="2" />-->
-<!--                <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">-->
-<!--                    <RadioButton mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" selected="true"-->
-<!--                                 text="Part Time">-->
-<!--                        <toggleGroup>-->
-<!--                            <ToggleGroup fx:id="employ"/>-->
-<!--                        </toggleGroup>-->
-<!--                    </RadioButton>-->
-<!--                    <RadioButton mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Full Time"-->
-<!--                                 toggleGroup="$employ"/>-->
-<!--                    <RadioButton mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" text="Management"-->
-<!--                                 toggleGroup="$employ"/>-->
-<!--                </HBox>-->
-<!--                <Label alignment="CENTER_RIGHT" prefWidth="145.0" text="Annual Salary" GridPane.rowIndex="4" />-->
-<!--                <TextField maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />-->
-<!--                <Label alignment="CENTER_RIGHT" maxWidth="145.0" text="Employee Type" GridPane.rowIndex="3" />-->
-<!--                <Label alignment="CENTER_RIGHT" maxWidth="145.0" text="Hours Worked" GridPane.rowIndex="5" />-->
-<!--                <HBox prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">-->
-<!--                    <TextField maxHeight="27.0" maxWidth="110.0" prefHeight="2.0" prefWidth="110.0">-->
-<!--                        <HBox.margin>-->
-<!--                            <Insets top="7.0"/>-->
-<!--                        </HBox.margin>-->
-<!--                    </TextField>-->
-<!--                    <Label text="Rate">-->
-<!--                        <HBox.margin>-->
-<!--                            <Insets left="10.0" top="12.0"/>-->
-<!--                        </HBox.margin>-->
-<!--                    </Label>-->
-<!--                    <TextField prefHeight="27.0" prefWidth="145.0">-->
-<!--                        <HBox.margin>-->
-<!--                            <Insets left="10.0" right="10.0" top="7.0"/>-->
-<!--                        </HBox.margin>-->
-<!--                    </TextField>-->
-<!--                </HBox>-->
-<!--                <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">-->
-<!--                    <children>-->
-<!--                        <RadioButton mnemonicParsing="false" prefHeight="40.0" prefWidth="91.0" text="Manager">-->
-<!--                            <HBox.margin>-->
-<!--                                <Insets right="10.0" />-->
-<!--                            </HBox.margin>-->
-<!--                        </RadioButton>-->
-<!--                        <RadioButton mnemonicParsing="false" prefHeight="39.0" prefWidth="132.0" text="Department Head">-->
-<!--                            <HBox.margin>-->
-<!--                                <Insets right="5.0" />-->
-<!--                            </HBox.margin>-->
-<!--                        </RadioButton>-->
-<!--                        <RadioButton mnemonicParsing="false" prefHeight="40.0" text="Director" />-->
-<!--                    </children>-->
-<!--                </HBox>-->
-            </center>
-            <bottom>
-                <TextArea fx:id="statusMessage" maxHeight="360.0" maxWidth="1280.0"
-                          text = "Payroll Processing System Starts.">
+    <AnchorPane nodeOrientation="LEFT_TO_RIGHT" VBox.vgrow="SOMETIMES">
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                  AnchorPane.topAnchor="0.0">
+         <bottom>
+             <GridPane alignment="CENTER" vgap="10.0">
+                 <columnConstraints>
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="10.0" prefWidth="195.0"/>
+                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="486.0" minWidth="10.0" prefWidth="435.0"/>
+                 </columnConstraints>
+                 <rowConstraints>
+                     <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES"/>
+                     <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES"/>
+                     <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES"/>
+                     <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES"/>
+                     <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES"/>
+                     <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                     <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                     <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                 </rowConstraints>
+                 <padding>
+                     <Insets bottom="10.0" top="10.0"/>
+                 </padding>
+                 <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" nodeOrientation="LEFT_TO_RIGHT" text="Name"
+                        textAlignment="RIGHT"/>
+                 <TextField fx:id="name" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="300.0"
+                            GridPane.columnIndex="1"/>
+                 <Label alignment="CENTER_RIGHT" text="Department" GridPane.rowIndex="1"/>
+                 <HBox prefHeight="11.0" prefWidth="446.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <RadioButton fx:id="dep1"
+                                  mnemonicParsing="false" prefHeight="40.0" selected="true" text="CS">
+                         <toggleGroup>
+                             <ToggleGroup fx:id="department"/>
+                         </toggleGroup>
+                         <padding>
+                             <Insets right="25.0"/>
+                         </padding>
+                     </RadioButton>
+                     <RadioButton fx:id="dep2"
+                                  mnemonicParsing="false" prefHeight="40.0" text="IT" toggleGroup="$department">
+                         <padding>
+                             <Insets right="25.0"/>
+                         </padding>
+                     </RadioButton>
+                     <RadioButton fx:id="dep3"
+                                  mnemonicParsing="false" prefHeight="40.0" text="ECE" toggleGroup="$department"/>
+                 </HBox>
+                 <Label alignment="CENTER_RIGHT" text="Date" GridPane.rowIndex="2"/>
+                 <DatePicker fx:id="date" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                 <HBox prefHeight="100.0" prefWidth="567.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <RadioButton fx:id="type1"
+                                  mnemonicParsing="false" prefHeight="40.0" selected="true" text="Part Time">
+                         <toggleGroup>
+                             <ToggleGroup fx:id="type"/>
+                         </toggleGroup>
+                         <padding>
+                             <Insets right="25.0"/>
+                         </padding>
+                     </RadioButton>
+                     <RadioButton fx:id="type2"
+                                  mnemonicParsing="false" prefHeight="40.0" text="Full Time" toggleGroup="$type">
+                         <padding>
+                             <Insets right="25.0"/>
+                         </padding>
+                     </RadioButton>
+                     <RadioButton fx:id="type3"
+                                  mnemonicParsing="false" prefHeight="40.0" text="Management" toggleGroup="$type"/>
+                 </HBox>
+                 <Label alignment="CENTER_RIGHT" text="Annual Salary" GridPane.rowIndex="4"/>
+                 <TextField fx:id="annualSalary" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                 <Label alignment="CENTER_RIGHT" text="Employee Type" GridPane.rowIndex="3"/>
+                 <Label alignment="CENTER_RIGHT" text="Hours Worked" GridPane.rowIndex="5"/>
+                 <HBox prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <TextField fx:id="hoursWorked"
+                                maxHeight="27.0" maxWidth="110.0" prefHeight="2.0" prefWidth="110.0">
+                         <HBox.margin>
+                             <Insets top="7.0"/>
+                         </HBox.margin>
+                     </TextField>
+                     <Label text="Rate">
+                         <HBox.margin>
+                             <Insets left="10.0" top="12.0"/>
+                         </HBox.margin>
+                     </Label>
+                     <TextField fx:id="hourlyRate" prefHeight="27.0" prefWidth="145.0">
+                         <HBox.margin>
+                             <Insets left="10.0" right="10.0" top="7.0"/>
+                         </HBox.margin>
+                     </TextField>
+                 </HBox>
+                 <HBox prefHeight="100.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <RadioButton fx:id="admin1"
+                                  mnemonicParsing="false" prefHeight="40.0" selected="true" text="1. Manager">
+                         <toggleGroup>
+                             <ToggleGroup fx:id="admin"/>
+                         </toggleGroup>
+                         <HBox.margin>
+                             <Insets right="10.0"/>
+                         </HBox.margin>
+                         <padding>
+                             <Insets right="10.0"/>
+                         </padding>
+                     </RadioButton>
+                     <RadioButton fx:id="admin2"
+                                  mnemonicParsing="false" prefHeight="39.0" text="2. Dep. Head" toggleGroup="$admin">
+                         <HBox.margin>
+                             <Insets right="5.0"/>
+                         </HBox.margin>
+                         <padding>
+                             <Insets right="10.0"/>
+                         </padding>
+                     </RadioButton>
+                     <RadioButton fx:id="admin3"
+                             mnemonicParsing="false" prefHeight="40.0" text="3. Director" toggleGroup="$admin"/>
+                 </HBox>
+                 <Button fx:id="reset" alignment="CENTER" contentDisplay="CENTER"
+                         mnemonicParsing="false" text="Reset" GridPane.rowIndex="7">
+                    <GridPane.margin>
+                        <Insets right="10.0"/>
+                    </GridPane.margin>
+                 </Button>
+                 <Label alignment="CENTER_RIGHT" text="Admin Roles" GridPane.rowIndex="6"/>
+             </GridPane>
+         </bottom>
+         <center>
+                <TextArea fx:id="statusMessage" maxHeight="-Infinity" maxWidth="-Infinity" text="Payroll Processing System Starts." BorderPane.alignment="CENTER">
                     <padding>
-                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </padding>
                 </TextArea>
-            </bottom>
-        </BorderPane>
+         </center>
+         <right>
+             <VBox spacing="15.0" BorderPane.alignment="CENTER">
+                 <padding>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                 </padding>
+                 <BorderPane.margin>
+                     <Insets top="10.0"/>
+                 </BorderPane.margin>
+                 <Button fx:id="add" mnemonicParsing="false" text="ADD">
+                     <padding>
+                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                     </padding>
+                     <tooltip>
+                         <Tooltip text="Add Employee to Database (Requires Form Input)"/>
+              </tooltip>
+                 </Button>
+                 <Button fx:id="remove" mnemonicParsing="false" text="REMOVE">
+                     <padding>
+                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                     </padding>
+                     <tooltip>
+                         <Tooltip text="Remove an Employee (Requires Form Input)"/>
+              </tooltip>
+                 </Button>
+                 <Button fx:id="calculate" mnemonicParsing="false" text="PAYMENTS">
+                     <padding>
+                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                     </padding>
+                     <tooltip>
+                         <Tooltip text="Calculate Employee Compensations"/>
+              </tooltip>
+                 </Button>
+                 <Button fx:id="setHours" mnemonicParsing="false" text="SET HOURS">
+                     <padding>
+                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                     </padding>
+                     <tooltip>
+                         <Tooltip text="Set Working Hours for Part-Time Employee (Requires Form Input)"/>
+              </tooltip>
+                 </Button>
+                 <SplitMenuButton fx:id="print" mnemonicParsing="false" text="PRINT">
+                     <items>
+                         <MenuItem fx:id="printDate" mnemonicParsing="false" text="BY DATE"/>
+                         <MenuItem fx:id="printDep" mnemonicParsing="false" text="BY DEPARTMENT"/>
+                     </items>
+                 </SplitMenuButton>
+             </VBox>
+         </right>
+      </BorderPane>
+      <VBox.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      </VBox.margin>
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      </padding>
     </AnchorPane>
 </VBox>

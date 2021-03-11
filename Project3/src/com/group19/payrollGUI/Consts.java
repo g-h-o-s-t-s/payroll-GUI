@@ -1,11 +1,12 @@
 package com.group19.payrollGUI;
 
 import java.text.DecimalFormat;
+
 /**
  * The Consts class houses all immutable constant values.
  @author Michael Choe, Sagnik Mukherjee
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "SpellCheckingInspection"})
 public class Consts
 {
     /* Constants which appear in multiple classes */
@@ -76,13 +77,12 @@ public class Consts
     //Constants used to restrict and validate input, and select a substring
     //created by splitting the input line on whitespace.
     public static final int SPLITONE = 0, SPLITTWO = 1, SPLITTHREE = 2,
-            SPLITFOUR = 3, SPLITFIVE = 4, SPLITSIX = 5,
-            ONEINPUT = 1, FOURINPUTS = 4, FIVEINPUTS = 5, SIXINPUTS = 6;
+            SPLITFOUR = 3, SPLITFIVE = 4, SPLITSIX = 5;
+    public static final int DATE_PARTS = 3;
 
     //Constants that represent status messages.
     public static final String DELIMITER = ",";
-    public static final String INVALID_INPUT = "Invalid input!",
-            INVALID_DATE = " is not a valid date.",
+    public static final String INVALID_DATE = " is not a valid date.",
             INVALID_NAME = " is not a valid name (first last).",
             INVALID_DEP = " is not a valid department code.",
             INVALID_SALARY = "Salary cannot be negative.",
@@ -91,21 +91,19 @@ public class Consts
             INVALID_HOURS_A = "Working hours cannot be negative.",
             INVALID_HOURS_B = "Invalid Hours: over 100.",
             CALCULATED = "Calculation of employee payments is done.",
-            ADDED = "Employee added.",
             ADDEDPT = "Added part-time employee.",
             ADDEDFT = "Added full-time employee.",
             ADDEDMA = "Added management position.",
-            DUPLICATE = "Employee is already in the list.",
+            DUPLICATE = "Employee is already in the list " +
+                    "(or input was invalid).",
             SETHOURS = "Working hours set.",
             REMOVED = "Employee removed.",
             NONEXISTENT = "Employee doesn't exist.",
             ISEMPTY = "Employee database is empty.";
 
     //Constants that indicate which client command to execute.
-    public static final String QUIT = "Q", ADDPARTTIME = "P",
-            ADDFULLTIME = "F", ADDFULLROLE = "M", REMOVE = "R",
-            CALCULATE = "C", SET = "S", PRINTALL = "PA", PRINTHIRED = "PH",
-            PRINTDEPART = "PD";
+    public static final String ADDPARTTIME = "P",
+            ADDFULLTIME = "F", ADDFULLROLE = "M";
 
     //Constants that indicate which list header to print.
     public static final String
@@ -113,18 +111,13 @@ public class Consts
         PRINTDEP_HEADER = "--Printing earning statements by department--",
         PRINTDATE_HEADER = "--Printing earning statements by date hired--";
 
-
-    /* ManagementTest() class constants */
-    public static final double ROUNDING = 100.0;
-
     //Possibilities for Employee department.
     public static final String CS = "CS", ECE = "ECE", IT = "IT";
 
     /* Main() constants */
     public static final int DEFAULT_WIDTH = 1280;
-    public static final int DEFAULT_HEIGHT = 720;
-    public static final int HALF_WIDTH = 640;
-    public static final int HALF_HEIGHT = 360;
+    public static final int DEFAULT_HEIGHT = 800;
+
 
     /* Controller() constants */
     public static final String SELECTED = "File selected: ";
