@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!-- Sagnik Mukherjee, Michael Choe !-->
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
+        <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
+        <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -65,7 +65,7 @@
                  <Label alignment="CENTER_RIGHT" text="Department" GridPane.rowIndex="1"/>
                  <HBox prefHeight="11.0" prefWidth="446.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <RadioButton fx:id="dep1"
-                                  mnemonicParsing="false" prefHeight="40.0" selected="true" text="CS">
+                                  mnemonicParsing="false" prefHeight="40.0" text="CS">
                          <toggleGroup>
                              <ToggleGroup fx:id="department"/>
                          </toggleGroup>
@@ -86,7 +86,7 @@
                  <DatePicker fx:id="date" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
                  <HBox prefHeight="100.0" prefWidth="567.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <RadioButton fx:id="type1"
-                                  mnemonicParsing="false" prefHeight="40.0" selected="true" text="Part Time">
+                                  mnemonicParsing="false" prefHeight="40.0" text="Part Time">
                          <toggleGroup>
                              <ToggleGroup fx:id="type"/>
                          </toggleGroup>
@@ -127,7 +127,7 @@
                  </HBox>
                  <HBox prefHeight="100.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                      <RadioButton fx:id="admin1"
-                                  mnemonicParsing="false" prefHeight="40.0" selected="true" text="1. Manager">
+                                  mnemonicParsing="false" prefHeight="40.0" text="1. Manager">
                          <toggleGroup>
                              <ToggleGroup fx:id="admin"/>
                          </toggleGroup>

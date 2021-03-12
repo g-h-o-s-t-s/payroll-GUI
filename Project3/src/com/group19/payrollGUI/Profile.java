@@ -5,7 +5,7 @@ import static com.group19.payrollGUI.Consts.*;
  * Object class which contains company-relevant information of an employee.
  @author Sagnik Mukherjee, Michael Choe
  */
-@SuppressWarnings("FieldMayBeFinal")
+@SuppressWarnings({"FieldMayBeFinal", "PatternVariableCanBeUsed"})
 public class Profile
 {
     //object fields
@@ -92,9 +92,10 @@ public class Profile
     public boolean equals(Object obj)
     {
         //check if invoking object & param are of the same class
-        if (!(obj instanceof Profile that))
+        if (!(obj instanceof Profile))
             return false;
 
+        Profile that = (Profile) obj;
         return this.name.equals(that.getName())
                 && this.department.equals(that.department)
                 && this.dateHired.compareTo(that.dateHired) == ZERO;

@@ -53,7 +53,7 @@ public class Controller
     @FXML private MenuItem printDate;
     @FXML private MenuItem printDep;
 
-    //TextArea Node for console output as program runs.
+    //TextArea Node for "console output" as program runs.
     @FXML private TextArea statusMessage;
 
     /**
@@ -61,7 +61,6 @@ public class Controller
      * Initializes all the Action Events and MouseClicked Events associated
      * with MenuItems and Buttons.
      */
-    @FXML
     public void initialize() {
         //MenuBar > MenuItem Events
         importFile.setOnAction(event -> this.handleImport());
@@ -88,6 +87,11 @@ public class Controller
         admin2.setUserData(DH_CODE);
         admin3.setUserData(DI_CODE);
 
+        //Disable irrelevant Input areas as needed.
+        type1.setOnMouseClicked(event -> this.enablePartTime());
+        type2.setOnMouseClicked(event -> this.enableFullTime());
+        type3.setOnMouseClicked(event -> this.enableManagement());
+
         //Printing, SplitMenuButton > MenuItem Events
         print.setOnMouseClicked(event -> this.printAll());
         printDate.setOnAction(event -> this.printByDate());
@@ -95,6 +99,42 @@ public class Controller
 
         //Reset Input Form's data.
         reset.setOnMouseClicked(event -> resetForm());
+    }
+
+    /**
+     * Handler to disable input areas not relevant to PartTime.
+     */
+    private void enablePartTime() {
+        hourlyRate.setDisable(false);
+        hoursWorked.setDisable(false);
+        annualSalary.setDisable(true);
+        admin1.setDisable(true);
+        admin2.setDisable(true);
+        admin3.setDisable(true);
+    }
+
+    /**
+     * Handler to disable input areas not relevant to FullTime.
+     */
+    private void enableFullTime() {
+        annualSalary.setDisable(false);
+        hourlyRate.setDisable(true);
+        hoursWorked.setDisable(true);
+        admin1.setDisable(true);
+        admin2.setDisable(true);
+        admin3.setDisable(true);
+    }
+
+    /**
+     * Handler to disable input areas not relevant to Management.
+     */
+    private void enableManagement() {
+        annualSalary.setDisable(false);
+        admin1.setDisable(false);
+        admin2.setDisable(false);
+        admin3.setDisable(false);
+        hourlyRate.setDisable(true);
+        hoursWorked.setDisable(true);
     }
 
     /**
@@ -145,10 +185,8 @@ public class Controller
 
         //process file, if one was chosen at all
         try {
-            if (fileHandle != null) {
-                appendText((SELECTED + fileHandle.getName()));
-                gatherInput();
-            }
+            appendText((SELECTED + fileHandle.getName()));
+            gatherInput();
         } catch (Exception ex) {
             throwAlert(ex.getMessage());
         }
@@ -220,30 +258,52 @@ public class Controller
 
     /**
      * Converts manual user input from textFields and
-     * radioButtons to a String[] for inputs.
+     * radioButtons to a String[] for inputs, a data field of Controller().
      */
     private void setInputs() {
         try {
-            String nameStr = name.getText();
-            String depStr = department.getSelectedToggle().getUserData().toString();
-            String dateStr = date.getValue().toString();
-            dateStr = dateFormat(dateStr);
+            //expected: "P" "F" or "M"
             String typeStr =
                     type.getSelectedToggle().getUserData().toString();
-            String salaryStr = annualSalary.getText();
-            String rateStr = hourlyRate.getText();
-            String adminStr =
-                    admin.getSelectedToggle().getUserData().toString();
 
-            if (typeStr.equals(ADDPARTTIME))
-                inputs = new String[]{typeStr, nameStr, depStr, dateStr, rateStr};
-            else if (typeStr.equals(ADDFULLTIME))
-                inputs = new String[]{typeStr, nameStr, depStr, dateStr, salaryStr};
-            else
-                inputs = new String[]{typeStr, nameStr, depStr, dateStr, salaryStr, adminStr};
+            if (typeStr.equals(ADDPARTTIME)) {
+                setCommonInputs(typeStr, hourlyRate);
+            }
+            else if (typeStr.equals(ADDFULLTIME)) {
+                setCommonInputs(typeStr, annualSalary);
+            }
+            else {
+                String nameStr = name.getText();
+                String depStr = department.getSelectedToggle()
+                        .getUserData().toString();
+                String dateStr = date.getValue().toString();
+                dateStr = dateFormat(dateStr);
+                String salaryStr = annualSalary.getText();
+                String adminStr =
+                        admin.getSelectedToggle().getUserData().toString();
+                inputs = new String[]{typeStr, nameStr,
+                        depStr, dateStr, salaryStr, adminStr};
+            }
         } catch (Exception ex) {
             throwAlert(ex.getMessage());
         }
+    }
+
+    /**
+     * Intermediate helper, processes textField/radioButton inputs for
+     * Part-time and Full-time. They basically share input fields, just
+     * two different forms of salaries (annual vs hourly).
+     * @param typeStr "P" or "F," for the type of employee to be added
+     * @param salary TextField value for hourlyRate, or for annualSalary
+     */
+    private void setCommonInputs(String typeStr, TextField salary) {
+        String nameStr = name.getText();
+        String depStr = department.getSelectedToggle()
+                .getUserData().toString();
+        String dateStr = date.getValue().toString();
+        dateStr = dateFormat(dateStr);
+        String rateStr = salary.getText();
+        inputs = new String[]{typeStr, nameStr, depStr, dateStr, rateStr};
     }
 
     /**
@@ -257,7 +317,8 @@ public class Controller
         String result = "";
         String[] parts = dateStr.split("-");
         if (parts.length == DATE_PARTS) {
-            result = parts[SPLITTWO] + "/" + parts[SPLITTHREE] + "/" + parts[SPLITONE];
+            result = parts[SPLITTWO] + "/"
+                    + parts[SPLITTHREE] + "/" + parts[SPLITONE];
         }
         return result;
     }
@@ -265,7 +326,6 @@ public class Controller
     /**
      * Helper method to execute "Add Part Time" client command.
      */
-    @FXML
     public void addPartTime() {
         //Set inputs[] based off user form if no file was imported.
         if (fileHandle == null)
@@ -290,7 +350,6 @@ public class Controller
     /**
      * Helper method to execute "Add Full Time" client command.
      */
-    @FXML
     private void addFullTime() {
         if (fileHandle == null)
             setInputs();
@@ -315,7 +374,6 @@ public class Controller
     /**
      * Helper method to execute "Add Full Time Management" client command.
      */
-    @FXML
     private void addFullRole() {
         if (fileHandle == null)
             setInputs();
@@ -342,7 +400,7 @@ public class Controller
     /**
      * Helper method to execute "Remove" client command.
      */
-    @FXML
+
     private void removeEmployee() {
         setInputs();
         if (company.isEmpty())
@@ -369,7 +427,7 @@ public class Controller
     /**
      * Helper method to execute "Calculate" client command.
      */
-    @FXML
+
     private void calculate() {
         if (company.isEmpty())
             appendText(ISEMPTY);
@@ -382,7 +440,7 @@ public class Controller
     /**
      * Helper method to execute "Set" client command.
      */
-    @FXML
+
     private void setHours() {
         setInputs();
         if (company.isEmpty())
@@ -414,7 +472,7 @@ public class Controller
     /**
      * Handles printAll onMouseClicked action.
      */
-    @FXML
+
     private void printAll() {
         if (company.isEmpty())
             appendText(ISEMPTY);
@@ -428,7 +486,6 @@ public class Controller
     /**
      * Handles printByDate onMouseClicked action.
      */
-    @FXML
     private void printByDate() {
         if (company.isEmpty())
             appendText(ISEMPTY);
@@ -442,7 +499,6 @@ public class Controller
     /**
      * Handles printByDepartment onMouseClicked action.
      */
-    @FXML
     private void printByDepartment() {
         if (company.isEmpty())
             appendText(ISEMPTY);

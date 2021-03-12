@@ -4,7 +4,7 @@ package com.group19.payrollGUI;
  * Object class which represents an employed individual.
  @author Sagnik Mukherjee, Michael Choe
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "PatternVariableCanBeUsed"})
 public class Employee {
     //object fields
     private Profile profile;
@@ -86,9 +86,10 @@ public class Employee {
     public boolean equals(Object obj)
     {
         //check if invoking object & param are of the same class
-        if (!(obj instanceof Employee that)) //null if obj is not of type Employee
+        if (!(obj instanceof Employee)) //null if obj is not of type Employee
             return false;
 
+        Employee that = (Employee) obj;
         return profile.equals(that.profile)
                 && this.periodEarnings == that.getPeriodEarnings();
     }
